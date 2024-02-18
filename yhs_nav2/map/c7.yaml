@@ -1,0 +1,7 @@
+image: c7.pgm
+mode: trinary
+resolution: 0.05
+origin: [-17, -19.7, 0]
+negate: 0
+occupied_thresh: 0.55
+free_thresh: 0.15

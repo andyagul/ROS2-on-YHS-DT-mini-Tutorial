@@ -1,0 +1,44 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/dxs/ros2_lite_ws/install/yhs_can_interfaces/local/lib/python3.10/dist-packages",
+        "/home/dxs/ros2_lite_ws/install/dwb_msgs/local/lib/python3.10/dist-packages",
+        "/home/dxs/ros2_lite_ws/install/nav_2d_msgs/local/lib/python3.10/dist-packages",
+        "/home/dxs/ros2_lite_ws/build/nav2_simple_commander",
+        "/home/dxs/ros2_lite_ws/install/nav2_simple_commander/lib/python3.10/site-packages",
+        "/home/dxs/ros2_lite_ws/install/nav2_msgs/local/lib/python3.10/dist-packages",
+        "/home/dxs/ros2_lite_ws/install/nav2_common/local/lib/python3.10/dist-packages",
+        "/home/dxs/ros2_lite_ws/install/cartographer_ros_msgs/local/lib/python3.10/dist-packages",
+        "/home/dxs/ament_ws/install/yhs_can_interfaces/local/lib/python3.10/dist-packages",
+        "/home/dxs/ament_ws/install/village_li/lib/python3.10/site-packages",
+        "/home/dxs/ament_ws/install/village_interfaces/local/lib/python3.10/dist-packages",
+        "/home/dxs/ament_ws/install/robot_description/lib/python3.10/site-packages",
+        "/home/dxs/ament_ws/install/learning_pkg_py/lib/python3.10/site-packages",
+        "/home/dxs/ament_ws/install/cartographer_ros_msgs/local/lib/python3.10/dist-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/dxs/ros2_lite_ws/install/yhs_can_interfaces/local/lib/python3.10/dist-packages",
+        "/home/dxs/ros2_lite_ws/install/dwb_msgs/local/lib/python3.10/dist-packages",
+        "/home/dxs/ros2_lite_ws/install/nav_2d_msgs/local/lib/python3.10/dist-packages",
+        "/home/dxs/ros2_lite_ws/build/nav2_simple_commander",
+        "/home/dxs/ros2_lite_ws/install/nav2_simple_commander/lib/python3.10/site-packages",
+        "/home/dxs/ros2_lite_ws/install/nav2_msgs/local/lib/python3.10/dist-packages",
+        "/home/dxs/ros2_lite_ws/install/nav2_common/local/lib/python3.10/dist-packages",
+        "/home/dxs/ros2_lite_ws/install/cartographer_ros_msgs/local/lib/python3.10/dist-packages",
+        "/home/dxs/ament_ws/install/yhs_can_interfaces/local/lib/python3.10/dist-packages",
+        "/home/dxs/ament_ws/install/village_li/lib/python3.10/site-packages",
+        "/home/dxs/ament_ws/install/village_interfaces/local/lib/python3.10/dist-packages",
+        "/home/dxs/ament_ws/install/robot_description/lib/python3.10/site-packages",
+        "/home/dxs/ament_ws/install/learning_pkg_py/lib/python3.10/site-packages",
+        "/home/dxs/ament_ws/install/cartographer_ros_msgs/local/lib/python3.10/dist-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "cmake.configureOnOpen": false,
+    "files.associations": {
+        "chrono": "cpp",
+        "qobject": "cpp",
+        "functional": "cpp"
+    }
+}

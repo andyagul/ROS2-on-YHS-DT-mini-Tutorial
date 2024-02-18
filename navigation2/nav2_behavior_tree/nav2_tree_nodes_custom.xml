@@ -1,0 +1,35 @@
+<root>
+    <TreeNodesModel>
+        <Action ID="BackUp">
+            <input_port name="backup_dist">Distance to backup</input_port>
+            <input_port name="backup_speed">Speed at which to backup</input_port>
+            <input_port name="time_allowance">Allowed time for reversing</input_port>
+        </Action>
+        <Action ID="ClearEntireCostmap">
+            <input_port name="server_timeout">Server timeout</input_port>
+            <input_port name="service_name">Service name</input_port>
+        </Action>
+        <Action ID="FollowPath">
+            <input_port name="controller_id" default="FollowPath"/>
+            <input_port name="goal_checker_id" default="GoalChecker">Goal checker</input_port>
+            <input_port name="path">Path to follow</input_port>
+        </Action>
+        <Condition ID="GoalUpdated"/>
+        <Control ID="PipelineSequence"/>
+        <Decorator ID="RateController">
+            <input_port name="hz">Rate</input_port>
+        </Decorator>
+        <Control ID="RecoveryNode">
+            <input_port name="number_of_retries">Number of retries</input_port>
+        </Control>
+        <Control ID="RoundRobin"/>
+        <Action ID="Spin">
+            <input_port name="spin_dist">Spin distance</input_port>
+            <input_port name="time_allowance">Allowed time for spinning</input_port>
+        </Action>
+        <Action ID="Wait">
+            <input_port name="wait_duration">Wait time</input_port>
+        </Action>
+    </TreeNodesModel>
+</root>
+
