@@ -20,9 +20,14 @@
 
 int main(int argc, char ** argv)
 {
+  //ROS节点实现的四步：初始化、创建节点、阻塞运行、关闭
+  //初始化
   rclcpp::init(argc, argv);
+  //创建节点
   auto node = std::make_shared<nav2_planner::PlannerServer>();
+  //阻塞运行
   rclcpp::spin(node->get_node_base_interface());
+  //关闭
   rclcpp::shutdown();
 
   return 0;

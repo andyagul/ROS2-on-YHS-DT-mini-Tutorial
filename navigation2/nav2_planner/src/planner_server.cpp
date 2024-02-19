@@ -73,7 +73,7 @@ PlannerServer::~PlannerServer()
   costmap_thread_.reset();
 }
 
-nav2_util::CallbackReturn
+nav2_util::CallbackReturn//返回类型
 PlannerServer::on_configure(const rclcpp_lifecycle::State & /*state*/)
 {
   RCLCPP_INFO(get_logger(), "Configuring");
@@ -134,7 +134,7 @@ PlannerServer::on_configure(const rclcpp_lifecycle::State & /*state*/)
   plan_publisher_ = create_publisher<nav_msgs::msg::Path>("plan", 1);
 
   // Create the action servers for path planning to a pose and through poses
-  action_server_pose_ = std::make_unique<ActionServerToPose>(
+  action_server_pose_ = std::make_unique<ActionServerToPose>(//在状态机切换到配置状态时,调用on_configure来创建动作服务器
     shared_from_this(),
     "compute_path_to_pose",
     std::bind(&PlannerServer::computePlan, this),

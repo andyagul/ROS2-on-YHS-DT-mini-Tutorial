@@ -44,8 +44,8 @@ namespace nav2_planner
 {
 /**
  * @class nav2_planner::PlannerServer
- * @brief An action server implements the behavior tree's ComputePathToPose
- * interface and hosts various plugins of different algorithms to compute plans.
+ * @brief An action server implements the behavior tree's ComputePathToPose 动作服务器实现行为树的ComputePathToPose
+ * interface and hosts various plugins of different algorithms to compute plans.*接口并托管不同算法的各种插件来计算计划。
  */
 class PlannerServer : public nav2_util::LifecycleNode
 {
@@ -54,13 +54,14 @@ public:
    * @brief A constructor for nav2_planner::PlannerServer
    * @param options Additional options to control creation of the node.
    */
+  //该构造函数接受一个参数 options，类型为 rclcpp::NodeOptions 的引用，并且有一个默认参数值为 rclcpp::NodeOptions()，表示如果在创建对象时没有提供 options 参数，则会使用默认的 rclcpp::NodeOptions 构造一个对象
   explicit PlannerServer(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
   /**
    * @brief A destructor for nav2_planner::PlannerServer
    */
   ~PlannerServer();
 
-  using PlannerMap = std::unordered_map<std::string, nav2_core::GlobalPlanner::Ptr>;
+  using PlannerMap = std::unordered_map<std::string, nav2_core::GlobalPlanner::Ptr>;//std::unordered_map 是 C++ 标准库中的一个容器，用于存储键值对，键类型是 std::string，值类型是 nav2_core::GlobalPlanner::Ptr
 
   /**
    * @brief Method to get plan from the desired plugin
@@ -105,8 +106,10 @@ protected:
    */
   nav2_util::CallbackReturn on_shutdown(const rclcpp_lifecycle::State & state) override;
 
+  //使用using重定义动作消息Action
   using ActionToPose = nav2_msgs::action::ComputePathToPose;
   using ActionThroughPoses = nav2_msgs::action::ComputePathThroughPoses;
+  //使用sing重定义动作服务器ActionServer
   using ActionServerToPose = nav2_util::SimpleActionServer<ActionToPose>;
   using ActionServerThroughPoses = nav2_util::SimpleActionServer<ActionThroughPoses>;
 
@@ -186,6 +189,7 @@ protected:
     const std::string & planner_id);
 
   // Our action server implements the ComputePathToPose action
+  //使用独有权的智能指针std::unique_ptr来保存动作服务器
   std::unique_ptr<ActionServerToPose> action_server_pose_;
   std::unique_ptr<ActionServerThroughPoses> action_server_poses_;
 
@@ -228,10 +232,14 @@ protected:
   std::mutex dynamic_params_lock_;
 
   // Planner
+  //Nav2路径规划器插件通过ROS2的pluginlib机制加载工程中
+  //a: 定义变量: 保存插件的容器planners_
   PlannerMap planners_;
+  //b: 定义变量: 插件加载器gp_loader_
   pluginlib::ClassLoader<nav2_core::GlobalPlanner> gp_loader_;
   std::vector<std::string> default_ids_;
   std::vector<std::string> default_types_;
+  //c: 定义变量: 依次保存插件名字列表和类型列表
   std::vector<std::string> planner_ids_;
   std::vector<std::string> planner_types_;
   double max_planner_duration_;
