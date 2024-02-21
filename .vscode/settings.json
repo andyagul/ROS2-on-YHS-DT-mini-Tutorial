@@ -40,5 +40,33 @@
         "chrono": "cpp",
         "qobject": "cpp",
         "functional": "cpp"
-    }
+    },
+
+    // *** plugin configuration:Todo Tree BEGIN ***//
+    "todo-tree.highlights.defaultHighlight": {
+        "opacity": 0.5,
+        "gutterIcon": true,
+        "fontWeight": "bold",
+        "iconColor": "#ffff00",
+        "foreground": "#ff4400",
+        "background": "#00eeff3c",
+        "type": "whole-line"
+    },
+    "todo-tree.highlights.customHighlight": {
+        "TODO": {
+        "icon": "bell-fill"
+        // "type": "text"
+        },
+        "FIXME": {
+        "icon": "alert-fill",
+        "iconColor": "#ff0000",
+        "foreground": "#ff0000",
+        "background": "#00ff00"
+        },
+        "[x]": {
+        "icon": "check-circle-fill",
+        "iconColor": "#00ff00"
+        }
+    },
+    // *** plugin configuration:Todo Tree END ***//
 }

@@ -97,7 +97,7 @@ nav2_util::CallbackReturn
 BtNavigator::on_configure(const rclcpp_lifecycle::State & /*state*/)
 {
   RCLCPP_INFO(get_logger(), "Configuring");
-
+  //TODO 1 创建tf,节点间的坐标变换
   tf_ = std::make_shared<tf2_ros::Buffer>(get_clock());
   auto timer_interface = std::make_shared<tf2_ros::CreateTimerROS>(
     get_node_base_interface(), get_node_timers_interface());
@@ -111,6 +111,7 @@ BtNavigator::on_configure(const rclcpp_lifecycle::State & /*state*/)
   odom_topic_ = get_parameter("odom_topic").as_string();
 
   // Libraries to pull plugins (BT Nodes) from从中提取插件（BT 节点）的库
+  //TODO 2 获取行为树节点插件的名字列表
   auto plugin_lib_names = get_parameter("plugin_lib_names").as_string_array();
 
   pose_navigator_ = std::make_unique<nav2_bt_navigator::NavigateToPoseNavigator>();
@@ -124,6 +125,7 @@ BtNavigator::on_configure(const rclcpp_lifecycle::State & /*state*/)
   feedback_utils.transform_tolerance = transform_tolerance_;
 
   // Odometry smoother object for getting current speed
+  //TODO 3 使用平滑的里程计对象获取当前速度
   odom_smoother_ = std::make_shared<nav2_util::OdomSmoother>(shared_from_this(), 0.3, odom_topic_);
 
   if (!pose_navigator_->on_configure(

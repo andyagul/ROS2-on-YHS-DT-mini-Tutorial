@@ -39,7 +39,7 @@ enum class BtStatus { SUCCEEDED, FAILED, CANCELED };
  * @class nav2_behavior_tree::BehaviorTreeEngine
  * @brief A class to create and handle behavior trees
  */
-class BehaviorTreeEngine
+class BehaviorTreeEngine  //BehaviorTreeEngine是创建和处理行为树的类
 {
 public:
   /**
@@ -69,7 +69,7 @@ public:
    * @param blackboard Blackboard for BT
    * @return BT::Tree Created behavior tree
    */
-  BT::Tree createTreeFromText(
+  BT::Tree createTreeFromText(  
     const std::string & xml_string,
     BT::Blackboard::Ptr blackboard);
 
@@ -94,7 +94,7 @@ public:
   void haltAllActions(BT::TreeNode * root_node);
 
 protected:
-  // The factory that will be used to dynamically construct the behavior tree
+  // The factory that will be used to dynamically construct the behavior tree将用于动态构造行为树的工厂
   BT::BehaviorTreeFactory factory_;
   std::unique_ptr<BT::PublisherZMQ> groot_monitor_;
 };
