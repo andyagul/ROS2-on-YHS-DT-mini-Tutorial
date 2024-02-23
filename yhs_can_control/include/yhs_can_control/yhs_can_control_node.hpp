@@ -32,6 +32,13 @@
 #include "yhs_can_interfaces/msg/free_ctrl_cmd.hpp"
 #include "yhs_can_interfaces/msg/chassis_info_fb.hpp"
 
+// TYPE ：参数的数据类型。
+// NAME ：参数的名称。
+// VAR ：用于存储参数值的变量。
+// VALUE ：如果参数不存在时的默认值。
+// 该宏定义的作用是先将默认值 VALUE 赋给变量 VAR，然后在节点 node 中声明参数 NAME，并从参数服务器中获取参数 NAME 的值，存储到变量 VAR 中。
+// 这样可以方便地读取参数，并在参数不存在时使用默认值。
+// 这个宏定义的使用依赖于节点 node 的声明和初始化，以及参数服务器的配置。在使用时需要确保节点已经正确初始化，并且参数服务器中存在相应的参数。
 #define READ_PARAM(TYPE, NAME, VAR, VALUE) VAR = VALUE; \
        	node->declare_parameter<TYPE>(NAME, VAR); \
        	node->get_parameter(NAME, VAR);
@@ -49,7 +56,7 @@ public:
 	
 private:
 
-	rclcpp::Node::SharedPtr node_;
+	rclcpp::Node::SharedPtr node_; //等价于 rclcpp::shared_ptr<rclcpp::Node> node_;
 
 	std::string if_name_;
 	bool use_tf_;

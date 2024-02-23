@@ -105,7 +105,7 @@ bt_navigator_rclcpp_node:
 controller_server:
   ros__parameters:
     use_sim_time: False
-    controller_frequency: 20.0  #控制器的控制频率
+    controller_frequency: 20.0  #TODO 控制器的控制频率
     min_x_velocity_threshold: 0.001 #机器人在x轴最小线速度
     min_y_velocity_threshold: 0.5 #机器人在y轴最小线速度
     min_theta_velocity_threshold: 0.001 #机器人的最小旋转角速度
@@ -247,7 +247,7 @@ local_costmap:
       height: 6
       resolution: 0.05
 #      robot_radius: 0.22
-      footprint: "[[0.31,0.26],[0.31,-0.26],[-0.31,-0.26],[-0.31,0.26]]" 
+      footprint: "[[0.31,0.26],[0.31,-0.26],[-0.31,-0.26],[-0.31,0.26]]" #TODO
       plugins: ["static_layer", "obstacle_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
@@ -256,7 +256,7 @@ local_costmap:
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
-        observation_sources: scan scan1
+        observation_sources: scan scan1 #TODO
         scan:
           topic: /scan
           max_obstacle_height: 2.0
@@ -347,13 +347,13 @@ map_saver:
 
 planner_server:
   ros__parameters:
-    expected_planner_frequency: 20.0
+    expected_planner_frequency: 20.0 #TODO
     use_sim_time: False
     planner_plugins: ["GridBased"]
     GridBased:
-      plugin: "nav2_navfn_planner/NavfnPlanner"
+      plugin: "nav2_navfn_planner/NavfnPlanner" #TODO
       tolerance: 0.5
-      use_astar: true
+      use_astar: true #TODO
       allow_unknown: false
 
 #planner_server:
