@@ -55,7 +55,7 @@ namespace nav2_core
 
 /**
  * @class Controller
- * @brief controller interface that acts as a virtual base class for all controller plugins
+ * @brief controller interface that acts as a virtual base class for all controller plugins控制器接口，充当所有控制器插件的虚拟基类
  */
 class Controller
 {
@@ -93,7 +93,7 @@ public:
   virtual void deactivate() = 0;
 
   /**
-   * @brief local setPlan - Sets the global plan
+   * @brief local setPlan - Sets the global plan设置全局计划
    * @param path The global plan
    */
   virtual void setPlan(const nav_msgs::msg::Path & path) = 0;
