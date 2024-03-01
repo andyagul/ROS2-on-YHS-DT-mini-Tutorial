@@ -67,16 +67,17 @@ void ComputePathToPoseAction::halt()
 
 }  // namespace nav2_behavior_tree
 
+//程序执行刚开始时，BT_REGISTER_NODES(factory)会将各种各样的类型节点注册到factory中，就是bt_navigator->plugin_lib_names里的节点
 #include "behaviortree_cpp_v3/bt_factory.h"
 BT_REGISTER_NODES(factory)
-{
+{ //mark builder就是一个名为name，向名为"compute_path_to_pose"的server发送action请求的nav2_behavior_tree::ComputePathToPoseAction实例指针，
   BT::NodeBuilder builder =
     [](const std::string & name, const BT::NodeConfiguration & config)
     {
       return std::make_unique<nav2_behavior_tree::ComputePathToPoseAction>(
-        name, "compute_path_to_pose", config);
+        name, "compute_path_to_pose", config);//创建了一个行为树（Behavior Tree）中的动作节点。在行为树中，动作节点表示执行某个动作
     };
-
+  // 将builder注册到factory中，后期可以通过"ComputePathToPose"键值创建出build实例
   factory.registerBuilder<nav2_behavior_tree::ComputePathToPoseAction>(
     "ComputePathToPose", builder);
 }
