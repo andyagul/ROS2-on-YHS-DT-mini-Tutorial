@@ -45,7 +45,7 @@ void GoalTool::onInitialize()
 void
 GoalTool::onPoseSet(double x, double y, double theta)
 {
-  // Set goal pose on global object GoalUpdater to update nav2 Panel在全局对象 GoalUpdater 上设置目标姿势以更新 nav2 面板
+  // 在全局对象 GoalUpdater 上设置目标姿势以更新 nav2 面板
   GoalUpdater.setGoal(x, y, theta, context_->getFixedFrame());
 }
 

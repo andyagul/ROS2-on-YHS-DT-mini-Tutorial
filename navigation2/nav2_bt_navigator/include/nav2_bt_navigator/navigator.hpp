@@ -155,7 +155,7 @@ public:
     // get the default behavior tree for this navigator获取此导航器的默认行为树
     std::string default_bt_xml_filename = getDefaultBTFilepath(parent_node);
 
-    // Create the Behavior Tree Action Server for this navigator为此导航器创建行为树操作服务器
+    // 为此导航器创建行为树操作服务器
     bt_action_server_ = std::make_unique<nav2_behavior_tree::BtActionServer<ActionT>>(
       node,
       getName(),

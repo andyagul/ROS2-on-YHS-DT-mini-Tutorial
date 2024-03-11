@@ -33,7 +33,7 @@ namespace nav2_rviz_plugins
 {
 using nav2_util::geometry_utils::orientationAroundZAxis;
 
-// Define global GoalPoseUpdater so that the nav2 GoalTool plugin can access to update goal pose定义全局GoalPoseUpdater，以便nav2 GoalTool插件可以访问更新目标位姿
+// 定义全局GoalPoseUpdater，以便nav2 GoalTool插件可以访问更新目标位姿
 GoalPoseUpdater GoalUpdater;
 
 Nav2Panel::Nav2Panel(QWidget * parent)
