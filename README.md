@@ -34,6 +34,7 @@
 |---|---|---|
 | [Tutorial/ROS2自动驾驶入门课程标准.md](Tutorial/ROS2自动驾驶入门课程标准.md) | 课程标准全本：定位、目标、条件、M0–M12 模块教学标准、考核 | 教师备课、教学管理 |
 | [Tutorial/ROS2小车系统架构分析.md](Tutorial/ROS2小车系统架构分析.md) | 逐包、逐话题、逐 launch 的源码剖析与推荐学习顺序 | 教师授课、学生自学 |
+| [Tutorial/二次开发项目清单.md](Tutorial/二次开发项目清单.md) | 按难度分三级的可落地二次开发项目（参数级 / 脚本级 / 功能包级） | 竞赛、拓展任务、毕业设计 |
 | `src/` | 可直接编译运行的 ROS 2 工作空间（底盘驱动、传感器、SLAM、Nav2、TEB 等） | 实训实车、备课演示 |
 | [src/COLCON_BUILD.md](src/COLCON_BUILD.md) | colcon 常用编译选项说明 | M1 部署实训 |
 
@@ -435,7 +436,8 @@ ROS2 on YHS DT-mini Tutorial/
 ├── README.md                         # 本文件：课程资源导览
 ├── Tutorial/
 │   ├── ROS2自动驾驶入门课程标准.md    # 课程标准（定位/目标/条件/M0-M12/考核）
-│   └── ROS2小车系统架构分析.md        # 源码架构剖析（逐包/逐话题/逐 launch）
+│   ├── ROS2小车系统架构分析.md        # 源码架构剖析（逐包/逐话题/逐 launch）
+│   └── 二次开发项目清单.md            # 三级难度二次开发项目（参数/脚本/功能包）
 └── src/                              # ROS 2 工作空间
     ├── yhs_can_interfaces/           # M3 底盘 msg / action 定义
     ├── yhs_can_control/              # M3 CAN 驱动（M3 核心）
