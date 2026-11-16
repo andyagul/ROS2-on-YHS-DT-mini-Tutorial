@@ -1,6 +1,6 @@
 # ROS2 单线激光导航小车工作空间（src）架构分析
 
-> 分析对象：`/Users/waiyu/Downloads/src`
+> 分析对象：`~/ros2_ws/src`
 > 项目来源：YHS（深圳煜禾森科技有限公司）OS-lite-ros2-navigation —— 基于 ROS2 的单线激光 SLAM 导航套件
 > 版本基线：ROS 2 **Humble**，Nav2 **1.1.5**，TEB Local Planner **0.9.1**，Cartographer **2.0**，Orbbec SDK ROS2 **1.5.11**，Ubuntu 22.04
 > 硬件平台：煜禾森（YHS）差速 CAN 底盘（DT-mini / DT-mid / FR-mid / FR-mini / FW-mid / MK-mid / TK-mid 多车型）+ 单线激光雷达（nvilidar）+ 串口 IMU（CH100 系列）+ 可选 Orbbec 深度相机
@@ -42,15 +42,15 @@
 
 | 文件 | 类型 | 功能 |
 |---|---|---|
-| [msg/CtrlCmd.msg](file:///Users/waiyu/Downloads/src/yhs_can_interfaces/msg/CtrlCmd.msg) | msg | 底盘控制指令：`ctrl_cmd_gear`（档位）、`ctrl_cmd_linear`（线速度 m/s）、`ctrl_cmd_angular`（角速度，驱动内部按“度”解析） |
-| [msg/FreeCtrlCmd.msg](file:///Users/waiyu/Downloads/src/yhs_can_interfaces/msg/FreeCtrlCmd.msg) | msg | 自由控制：左右轮独立速度（`velocity_l` / `velocity_r`）+ 档位 |
-| [msg/IoCmd.msg](file:///Users/waiyu/Downloads/src/yhs_can_interfaces/msg/IoCmd.msg) | msg | IO 控制：灯（远近光/转向/制动/雾灯）、解锁、喇叭 |
-| [msg/CtrlFb.msg](file:///Users/waiyu/Downloads/src/yhs_can_interfaces/msg/CtrlFb.msg) | msg | 控制反馈：目标档位、实际线/角速度 |
-| [msg/LWheelFb.msg](file:///Users/waiyu/Downloads/src/yhs_can_interfaces/msg/LWheelFb.msg) / [msg/RWheelFb.msg](file:///Users/waiyu/Downloads/src/yhs_can_interfaces/msg/RWheelFb.msg) | msg | 左右轮速度（m/s）与脉冲计数 |
-| [msg/IoFb.msg](file:///Users/waiyu/Downloads/src/yhs_can_interfaces/msg/IoFb.msg) | msg | IO 状态反馈：各灯状态、6 路碰撞传感器、6 路跌落传感器、急停（estop）、手柄控制、充电状态 |
-| [msg/BmsFb.msg](file:///Users/waiyu/Downloads/src/yhs_can_interfaces/msg/BmsFb.msg) / [msg/BmsFlagFb.msg](file:///Users/waiyu/Downloads/src/yhs_can_interfaces/msg/BmsFlagFb.msg) | msg | 电池管理系统反馈：电压/电流/剩余容量/SOC、过压欠压过流过温等标志、高低温度 |
-| [msg/ChassisInfoFb.msg](file:///Users/waiyu/Downloads/src/yhs_can_interfaces/msg/ChassisInfoFb.msg) | msg | 聚合反馈：`ctrl_fb`+`io_fb`+`l/r_wheel_fb`+`bms_fb`+`bms_flag_fb` |
-| [action/RecordPath.action](file:///Users/waiyu/Downloads/src/yhs_can_interfaces/action/RecordPath.action) | action | **记录路径导航动作**：Goal 为 `nav_msgs/Path` + `behavior_tree`；Feedback 为当前位姿、导航时长、剩余时间、恢复次数、剩余距离；Result 为 `Empty` |
+| [msg/CtrlCmd.msg](../src/yhs_can_interfaces/msg/CtrlCmd.msg) | msg | 底盘控制指令：`ctrl_cmd_gear`（档位）、`ctrl_cmd_linear`（线速度 m/s）、`ctrl_cmd_angular`（角速度，驱动内部按“度”解析） |
+| [msg/FreeCtrlCmd.msg](../src/yhs_can_interfaces/msg/FreeCtrlCmd.msg) | msg | 自由控制：左右轮独立速度（`velocity_l` / `velocity_r`）+ 档位 |
+| [msg/IoCmd.msg](../src/yhs_can_interfaces/msg/IoCmd.msg) | msg | IO 控制：灯（远近光/转向/制动/雾灯）、解锁、喇叭 |
+| [msg/CtrlFb.msg](../src/yhs_can_interfaces/msg/CtrlFb.msg) | msg | 控制反馈：目标档位、实际线/角速度 |
+| [msg/LWheelFb.msg](../src/yhs_can_interfaces/msg/LWheelFb.msg) / [msg/RWheelFb.msg](../src/yhs_can_interfaces/msg/RWheelFb.msg) | msg | 左右轮速度（m/s）与脉冲计数 |
+| [msg/IoFb.msg](../src/yhs_can_interfaces/msg/IoFb.msg) | msg | IO 状态反馈：各灯状态、6 路碰撞传感器、6 路跌落传感器、急停（estop）、手柄控制、充电状态 |
+| [msg/BmsFb.msg](../src/yhs_can_interfaces/msg/BmsFb.msg) / [msg/BmsFlagFb.msg](../src/yhs_can_interfaces/msg/BmsFlagFb.msg) | msg | 电池管理系统反馈：电压/电流/剩余容量/SOC、过压欠压过流过温等标志、高低温度 |
+| [msg/ChassisInfoFb.msg](../src/yhs_can_interfaces/msg/ChassisInfoFb.msg) | msg | 聚合反馈：`ctrl_fb`+`io_fb`+`l/r_wheel_fb`+`bms_fb`+`bms_flag_fb` |
+| [action/RecordPath.action](../src/yhs_can_interfaces/action/RecordPath.action) | action | **记录路径导航动作**：Goal 为 `nav_msgs/Path` + `behavior_tree`；Feedback 为当前位姿、导航时长、剩余时间、恢复次数、剩余距离；Result 为 `Empty` |
 
 **系统角色**：整个底盘通信的“协议层”，隔离 CAN 底层字节流与上层 ROS 语义。
 
@@ -60,23 +60,23 @@
 
 | 文件 | 功能 |
 |---|---|
-| [src/yhs_can_control_node.cpp](file:///Users/waiyu/Downloads/src/yhs_can_control/src/yhs_can_control_node.cpp) | 驱动主实现（513 行），详见下 |
-| [include/yhs_can_control/yhs_can_control_node.hpp](file:///Users/waiyu/Downloads/src/yhs_can_control/include/yhs_can_control/yhs_can_control_node.hpp) | `CanControl` 类声明，含 `READ_PARAM` 参数读取宏 |
-| [launch/yhs_can_control.launch.py](file:///Users/waiyu/Downloads/src/yhs_can_control/launch/yhs_can_control.launch.py) | 启动节点，参数 `params_file_ch`（默认 cfg.yaml）与 `use_tf`（默认 true） |
-| [params/cfg.yaml](file:///Users/waiyu/Downloads/src/yhs_can_control/params/cfg.yaml) | 仅一项：`can_name: can0` |
+| [src/yhs_can_control_node.cpp](../src/yhs_can_control/src/yhs_can_control_node.cpp) | 驱动主实现（513 行），详见下 |
+| [include/yhs_can_control/yhs_can_control_node.hpp](../src/yhs_can_control/include/yhs_can_control/yhs_can_control_node.hpp) | `CanControl` 类声明，含 `READ_PARAM` 参数读取宏 |
+| [launch/yhs_can_control.launch.py](../src/yhs_can_control/launch/yhs_can_control.launch.py) | 启动节点，参数 `params_file_ch`（默认 cfg.yaml）与 `use_tf`（默认 true） |
+| [params/cfg.yaml](../src/yhs_can_control/params/cfg.yaml) | 仅一项：`can_name: can0` |
 
 `CanControl` 类的接口与职责：
 
 - **订阅**（下行控制）：
-  - `cmd_vel`（`Twist`）→ [cmd_callback](file:///Users/waiyu/Downloads/src/yhs_can_control/src/yhs_can_control_node.cpp#L153-L161)：把 `linear.x` 当作线速度、`angular.z` 转成“度”，档位固定 `3`，转成 `CtrlCmd` 再走 `ctrl_cmd_callback`。
+  - `cmd_vel`（`Twist`）→ [cmd_callback](../src/yhs_can_control/src/yhs_can_control_node.cpp#L153-L161)：把 `linear.x` 当作线速度、`angular.z` 转成“度”，档位固定 `3`，转成 `CtrlCmd` 再走 `ctrl_cmd_callback`。
   - `ctrl_cmd`（`CtrlCmd`）、`free_ctrl_cmd`（`FreeCtrlCmd`）、`io_cmd`（`IoCmd`）：直接组包发送。
-  - `imu_data`（`Imu`）→ [imu_data_callback](file:///Users/waiyu/Downloads/src/yhs_can_control/src/yhs_can_control_node.cpp#L388-L396)：提取 IMU 偏航角 `imu_yaw_`，供里程计朝向使用。
+  - `imu_data`（`Imu`）→ [imu_data_callback](../src/yhs_can_control/src/yhs_can_control_node.cpp#L388-L396)：提取 IMU 偏航角 `imu_yaw_`，供里程计朝向使用。
 - **发布**：`chassis_info_fb`（`ChassisInfoFb`）、`odom`（`Odometry`）。
 - **TF**：`odom → base_link`（当 `use_tf=true`）。
-- **CAN 底层**：[run()](file:///Users/waiyu/Downloads/src/yhs_can_control/src/yhs_can_control_node.cpp#L472-L500) 打开 `PF_CAN` 原始套接字绑定 `can0`，启动 [can_data_recv_callback](file:///Users/waiyu/Downloads/src/yhs_can_control/src/yhs_can_control_node.cpp#L232-L386) 接收线程，10ms 超时轮询。
+- **CAN 底层**：[run()](../src/yhs_can_control/src/yhs_can_control_node.cpp#L472-L500) 打开 `PF_CAN` 原始套接字绑定 `can0`，启动 [can_data_recv_callback](../src/yhs_can_control/src/yhs_can_control_node.cpp#L232-L386) 接收线程，10ms 超时轮询。
 - **下行 CAN ID**：`0x98C4D1D0`（控制）、`0x98C4D2D0`（自由控制）、`0x98C4D7D0`（IO）。
 - **上行 CAN ID**：`0x98C4D1EF`（CtrlFb）、`0x98C4D7EF`（左轮）、`0x98C4D8EF`（右轮）、`0x98C4DAEF`（IoFb）、`0x98C4E1EF`（BmsFb）、`0x98C4E2EF`（BmsFlagFb）。每帧校验异或 CRC（data[7]）。
-- **里程计**：[publish_odom](file:///Users/waiyu/Downloads/src/yhs_can_control/src/yhs_can_control_node.cpp#L398-L465)：对线速度积分得 `x/y`；朝向优先取 IMU 偏航（若 `/imu_data` 有发布者），否则对角速度积分。发布 `/odom`（`odom→base_link`）。
+- **里程计**：[publish_odom](../src/yhs_can_control/src/yhs_can_control_node.cpp#L398-L465)：对线速度积分得 `x/y`；朝向优先取 IMU 偏航（若 `/imu_data` 有发布者），否则对角速度积分。发布 `/odom`（`odom→base_link`）。
 
 **系统角色**：唯一的“执行层”，把导航输出的 `cmd_vel` 翻译成 CAN 报文驱动电机，同时向上反馈里程计/位姿，构成运动闭环。
 
@@ -86,15 +86,15 @@
 
 | 文件 | 功能 |
 |---|---|
-| [urdf/robot.urdf](file:///Users/waiyu/Downloads/src/yhs_chassis_description/urdf/robot.urdf)、[urdf/DT-mini.urdf](file:///Users/waiyu/Downloads/src/yhs_chassis_description/urdf/DT-mini.urdf) 及 `DT-mid/FR_mid/FR_mini/FW-mid/MK-mid/TK-mid.urdf` | 各车型 URDF，当前仅含 `base_link` 的视觉（STL 网格），用于 RViz 显示 |
+| [urdf/robot.urdf](../src/yhs_chassis_description/urdf/robot.urdf)、[urdf/DT-mini.urdf](../src/yhs_chassis_description/urdf/DT-mini.urdf) 及 `DT-mid/FR_mid/FR_mini/FW-mid/MK-mid/TK-mid.urdf` | 各车型 URDF，当前仅含 `base_link` 的视觉（STL 网格），用于 RViz 显示 |
 | `meshes/*.STL` | 各车型外壳/轮子网格模型 |
-| [launch/robot.launch.py](file:///Users/waiyu/Downloads/src/yhs_chassis_description/launch/robot.launch.py) | 启动 `robot_state_publisher` + `joint_state_publisher` + `rviz2`；默认加载 `DT-mini.urdf` |
+| [launch/robot.launch.py](../src/yhs_chassis_description/launch/robot.launch.py) | 启动 `robot_state_publisher` + `joint_state_publisher` + `rviz2`；默认加载 `DT-mini.urdf` |
 | `launch/DT-mid.launch.py` 等 7 个车型 launch | 各车型对应的加载入口（配合 `tools/select_car.sh` 拷贝为 `robot.launch.py`） |
 | `rviz/rviz.rviz` | RViz 显示配置 |
 
 **系统角色**：提供机器人外观模型与 `base_link` 静态 TF 基准，供 RViz 可视化。
 
-> 注意：[robot.urdf](file:///Users/waiyu/Downloads/src/yhs_chassis_description/urdf/robot.urdf) 引用的 `mesh/autocube.STL` 与实际 `meshes/DT-mini.STL` 等不一致，属遗留路径；实际以 `DT-mini.urdf` 等车型文件为准。
+> 注意：[robot.urdf](../src/yhs_chassis_description/urdf/robot.urdf) 引用的 `mesh/autocube.STL` 与实际 `meshes/DT-mini.STL` 等不一致，属遗留路径；实际以 `DT-mini.urdf` 等车型文件为准。
 
 ---
 
@@ -104,15 +104,15 @@
 
 | 文件 | 功能 |
 |---|---|
-| [launch/yhs_nav2.launch.py](file:///Users/waiyu/Downloads/src/yhs_nav2/launch/yhs_nav2.launch.py) | **总入口（导航模式）**：声明 namespace/map/use_sim_time/params_file/autostart/use_composition 等参数 → 启动 `nav2_container`（组合容器）→ 依次 include：`serial_imu` → `nvilidar` → `yhs_can_control` → `localization_launch` → `navigation_launch`。默认地图 `map/ecarroom.yaml`。 |
-| [launch/cartographer.launch.py](file:///Users/waiyu/Downloads/src/yhs_nav2/launch/cartographer.launch.py) | **Cartographer 建图入口**：IMU + 雷达 + 底盘 + `cartographer_ros/dgt_mini.launch.py` |
-| [launch/gmapping.launch.py](file:///Users/waiyu/Downloads/src/yhs_nav2/launch/gmapping.launch.py) | **Gmapping 建图入口**：IMU + 雷达 + 底盘 + `slam_gmapping.launch.py` |
-| [launch/localization_launch.py](file:///Users/waiyu/Downloads/src/yhs_nav2/launch/localization_launch.py) | 定位：`map_server` + `amcl` + `lifecycle_manager_localization`（管理 `[map_server, amcl]` 生命周期） |
-| [launch/navigation_launch.py](file:///Users/waiyu/Downloads/src/yhs_nav2/launch/navigation_launch.py) | 导航：`controller_server` + `smoother_server` + `planner_server` + `behavior_server` + `bt_navigator` + `waypoint_follower` + `velocity_smoother` + `lifecycle_manager_navigation`。注意两个关键重映射：`controller_server` 的 `cmd_vel→cmd_vel_nav`，`velocity_smoother` 的 `cmd_vel→cmd_vel_nav`、`cmd_vel_smoothed→cmd_vel` |
+| [launch/yhs_nav2.launch.py](../src/yhs_nav2/launch/yhs_nav2.launch.py) | **总入口（导航模式）**：声明 namespace/map/use_sim_time/params_file/autostart/use_composition 等参数 → 启动 `nav2_container`（组合容器）→ 依次 include：`serial_imu` → `nvilidar` → `yhs_can_control` → `localization_launch` → `navigation_launch`。默认地图 `map/ecarroom.yaml`。 |
+| [launch/cartographer.launch.py](../src/yhs_nav2/launch/cartographer.launch.py) | **Cartographer 建图入口**：IMU + 雷达 + 底盘 + `cartographer_ros/dgt_mini.launch.py` |
+| [launch/gmapping.launch.py](../src/yhs_nav2/launch/gmapping.launch.py) | **Gmapping 建图入口**：IMU + 雷达 + 底盘 + `slam_gmapping.launch.py` |
+| [launch/localization_launch.py](../src/yhs_nav2/launch/localization_launch.py) | 定位：`map_server` + `amcl` + `lifecycle_manager_localization`（管理 `[map_server, amcl]` 生命周期） |
+| [launch/navigation_launch.py](../src/yhs_nav2/launch/navigation_launch.py) | 导航：`controller_server` + `smoother_server` + `planner_server` + `behavior_server` + `bt_navigator` + `waypoint_follower` + `velocity_smoother` + `lifecycle_manager_navigation`。注意两个关键重映射：`controller_server` 的 `cmd_vel→cmd_vel_nav`，`velocity_smoother` 的 `cmd_vel→cmd_vel_nav`、`cmd_vel_smoothed→cmd_vel` |
 
 #### 参数中心
 
-[param/yhs_nav2.yaml](file:///Users/waiyu/Downloads/src/yhs_nav2/param/yhs_nav2.yaml) —— 全系统参数（详见第 5 节），要点：
+[param/yhs_nav2.yaml](../src/yhs_nav2/param/yhs_nav2.yaml) —— 全系统参数（详见第 5 节），要点：
 
 - `amcl`：`likelihood_field` 模型、48 束、500~5000 粒子、`base_link`/`map`/`odom` 坐标系、`set_initial_pose: true`（默认原点初始化）。
 - `bt_navigator`：默认 BT `navigate_w_replanning_and_recovery.xml`，加载 33 个 BT 插件，含自定义 **`nav2_compute_follow_record_path_action_bt_node`**。
@@ -127,8 +127,8 @@
 | 文件 | 功能 |
 |---|---|
 | `map/*.pgm + *.yaml`（ecarroom、110、113、116、75、hj110、qg2108、tw、zgq-c 等） | 预建好的栅格地图（多场地），`ecarroom.yaml` 为默认 |
-| [scripts/set_init_amcl_pose.py](file:///Users/waiyu/Downloads/src/yhs_nav2/scripts/set_init_amcl_pose.py) | 向 `/initialpose` 发布 AMCL 初始位姿（x/y/theta/cov 参数），等待订阅者出现后发送 |
-| [scripts/block_spawner.py](file:///Users/waiyu/Downloads/src/yhs_nav2/scripts/block_spawner.py) | Gazebo 仿真辅助：随机在指定位置 spawn 红/蓝/绿方块（依赖 tb3_worlds，属仿真遗留） |
+| [scripts/set_init_amcl_pose.py](../src/yhs_nav2/scripts/set_init_amcl_pose.py) | 向 `/initialpose` 发布 AMCL 初始位姿（x/y/theta/cov 参数），等待订阅者出现后发送 |
+| [scripts/block_spawner.py](../src/yhs_nav2/scripts/block_spawner.py) | Gazebo 仿真辅助：随机在指定位置 spawn 红/蓝/绿方块（依赖 tb3_worlds，属仿真遗留） |
 
 **系统角色**：`yhs_nav2` 是“一键启动”的总控包，把硬件层、底盘层、导航层串起来，并提供参数与地图。
 
@@ -140,8 +140,8 @@
 
 | 文件 | 功能 |
 |---|---|
-| [launch/nvilidar.launch.py](file:///Users/waiyu/Downloads/src/hardware/nvilidar_ros2/launch/nvilidar.launch.py) | 启动 `nvilidar_ros2_node` + 静态 TF `base_link→laser_link`（`z=0.33 m`） |
-| [params/nvilidar.yaml](file:///Users/waiyu/Downloads/src/hardware/nvilidar_ros2/params/nvilidar.yaml) | 串口 `/dev/lidar`、波特率 512000、`frame_id: laser_link`、`angle ±180°`、量程 0.001~64m、滤波（滑窗/拖尾）等 |
+| [launch/nvilidar.launch.py](../src/hardware/nvilidar_ros2/launch/nvilidar.launch.py) | 启动 `nvilidar_ros2_node` + 静态 TF `base_link→laser_link`（`z=0.33 m`） |
+| [params/nvilidar.yaml](../src/hardware/nvilidar_ros2/params/nvilidar.yaml) | 串口 `/dev/lidar`、波特率 512000、`frame_id: laser_link`、`angle ±180°`、量程 0.001~64m、滤波（滑窗/拖尾）等 |
 | `src/nvilidar_ros2_node.cpp`、`src/nvilidar_ros2_client.cpp` | 驱动主节点（发布 `/scan`，`SensorDataQoS`）与调试订阅端 |
 | `sdk/`（厂商协议库）、`startup/initenv.sh` | 底层串口/UDP 协议实现与 udev 规则脚本 |
 
@@ -151,8 +151,8 @@
 
 | 文件 | 功能 |
 |---|---|
-| [launch/imu_spec_msg.launch.py](file:///Users/waiyu/Downloads/src/hardware/serial_imu/launch/imu_spec_msg.launch.py) | 启动 `serial_imu` + 静态 TF `base_link→imu_link`（`imu_frame_id` 默认 `imu_link`） |
-| `src/serial_port.cpp` | 主节点：打开 [IMU_SERIAL = "/dev/imu"](file:///Users/waiyu/Downloads/src/hardware/serial_imu/src/serial_port.cpp#L17)（B115200），解帧后发布 `/imu_data`（四元数、角速度 °/s→rad/s、加速度 g→m/s²），`frame_id=imu_link` |
+| [launch/imu_spec_msg.launch.py](../src/hardware/serial_imu/launch/imu_spec_msg.launch.py) | 启动 `serial_imu` + 静态 TF `base_link→imu_link`（`imu_frame_id` 默认 `imu_link`） |
+| `src/serial_port.cpp` | 主节点：打开 [IMU_SERIAL = "/dev/imu"](../src/hardware/serial_imu/src/serial_port.cpp#L17)（B115200），解帧后发布 `/imu_data`（四元数、角速度 °/s→rad/s、加速度 g→m/s²），`frame_id=imu_link` |
 | `src/ch_serial.c/.h` | 超核（CH100/CH110）二进制协议解析器（帧头 0x90 / 加速度 0xA0 / 角速度 0xB0 / 四元数 0xD1 等） |
 | `src/sub_spec.cpp` | 调试订阅示例 |
 
@@ -175,8 +175,8 @@
 
 | 文件 | 功能 |
 |---|---|
-| [launch/dgt_mini.launch.py](file:///Users/waiyu/Downloads/src/cartographer_ros/cartographer_ros/launch/dgt_mini.launch.py) | 启动 `cartographer_node`（配置 `dgt_mini.lua`，重映射 `imu→imu_data`、`odom→odom`）+ `cartographer_occupancy_grid_node`（分辨率 0.05） |
-| [configuration_files/dgt_mini.lua](file:///Users/waiyu/Downloads/src/cartographer_ros/cartographer_ros/configuration_files/dgt_mini.lua) | 2D 建图参数：`map`/`base_link`/`odom` 坐标系、`provide_odom_frame=true`、`use_odometry=true`、`use_imu_data=false`、每 60 帧一子图、每 5 节点优化、运动滤波 0.2m/0.1rad、`min_range 0.5 / max_range 50` |
+| [launch/dgt_mini.launch.py](../src/cartographer_ros/cartographer_ros/launch/dgt_mini.launch.py) | 启动 `cartographer_node`（配置 `dgt_mini.lua`，重映射 `imu→imu_data`、`odom→odom`）+ `cartographer_occupancy_grid_node`（分辨率 0.05） |
+| [configuration_files/dgt_mini.lua](../src/cartographer_ros/cartographer_ros/configuration_files/dgt_mini.lua) | 2D 建图参数：`map`/`base_link`/`odom` 坐标系、`provide_odom_frame=true`、`use_odometry=true`、`use_imu_data=false`、每 60 帧一子图、每 5 节点优化、运动滤波 0.2m/0.1rad、`min_range 0.5 / max_range 50` |
 | `src/node_main.cpp` + `src/node.cpp` | `cartographer_node`：订阅 scan/imu/odom，发布 submap/tracked_pose，提供轨迹与状态服务 |
 | `src/occupancy_grid_node_main.cpp` | 订阅子图、拼接发布 `/map`（注意该节点 `use_sim_time` 硬编码 `True`，见第 5 节风险） |
 
@@ -186,7 +186,7 @@
 
 ### 1.7 `slam_gmapping` —— 备选建图方案
 
-[slam_gmapping.launch.py](file:///Users/waiyu/Downloads/src/slam_gmapping/slam_gmapping/launch/slam_gmapping.launch.py) 启动 `slam_gmapping` 节点（依赖 `openslam_gmapping`）。粒子滤波 SLAM，通过 `gmapping.launch.py` 使用，作为 Cartographer 之外的轻量备选。
+[slam_gmapping.launch.py](../src/slam_gmapping/slam_gmapping/launch/slam_gmapping.launch.py) 启动 `slam_gmapping` 节点（依赖 `openslam_gmapping`）。粒子滤波 SLAM，通过 `gmapping.launch.py` 使用，作为 Cartographer 之外的轻量备选。
 
 ---
 
@@ -213,8 +213,8 @@
 
 | 文件 | 功能 |
 |---|---|
-| [navigation2/nav2_behavior_tree/plugins/action/navigate_follow_record_path_action.cpp](file:///Users/waiyu/Downloads/src/navigation2/nav2_behavior_tree/plugins/action/navigate_follow_record_path_action.cpp) | 自定义 BT 动作节点，注册名 `navigate_follow_record_path`，库名 `nav2_compute_follow_record_path_action_bt_node` |
-| [navigation2/nav2_bt_navigator/src/navigators/navigate_follow_record_path.cpp](file:///Users/waiyu/Downloads/src/navigation2/nav2_bt_navigator/src/navigators/navigate_follow_record_path.cpp) | `NavigateFollowRecordPathNavigator`：订阅 `record_path`（`nav_msgs/Path`）作为目标，绑定默认 BT `navigate_follow_record_path_w_replanning_and_recovery.xml` |
+| [navigation2/nav2_behavior_tree/plugins/action/navigate_follow_record_path_action.cpp](../src/navigation2/nav2_behavior_tree/plugins/action/navigate_follow_record_path_action.cpp) | 自定义 BT 动作节点，注册名 `navigate_follow_record_path`，库名 `nav2_compute_follow_record_path_action_bt_node` |
+| [navigation2/nav2_bt_navigator/src/navigators/navigate_follow_record_path.cpp](../src/navigation2/nav2_bt_navigator/src/navigators/navigate_follow_record_path.cpp) | `NavigateFollowRecordPathNavigator`：订阅 `record_path`（`nav_msgs/Path`）作为目标，绑定默认 BT `navigate_follow_record_path_w_replanning_and_recovery.xml` |
 | `behavior_trees/navigate_follow_record_path_w_replanning_and_recovery.xml` 及 `...1.xml` | 记录路径跟随行为树 |
 
 **系统角色**：支持“先人工示教记录一条路径，再让小车自动循迹”，是巡检/固定路线场景的业务扩展。
@@ -231,7 +231,7 @@ TEB（Timed Elastic Band）局部规划器，含 `teb_local_planner`（算法 + 
 
 ### 1.10 `pointcloud_to_laserscan`
 
-[pointcloud_to_laserscan.launch.py](file:///Users/waiyu/Downloads/src/pointcloud_to_laserscan/launch/pointcloud_to_laserscan.launch.py)：订阅 `/camera/depth/points`，发布 `/scan1`（角度 ±90°，量程 0.05~1m），并发布静态 TF `base_link→camera_link`（0.23, 0, 0.2）。对应代价地图 `observation_sources` 里的 `scan1`。
+[pointcloud_to_laserscan.launch.py](../src/pointcloud_to_laserscan/launch/pointcloud_to_laserscan.launch.py)：订阅 `/camera/depth/points`，发布 `/scan1`（角度 ±90°，量程 0.05~1m），并发布静态 TF `base_link→camera_link`（0.23, 0, 0.2）。对应代价地图 `observation_sources` 里的 `scan1`。
 
 ---
 
@@ -253,8 +253,8 @@ TEB（Timed Elastic Band）局部规划器，含 `teb_local_planner`（算法 + 
 | `yhs_tutorials/vel_pub/src/vel_pub_node.cpp` | 发布 `/cmd_vel`（手动给速度） |
 | `yhs_tutorials/nav_pkg/src/nav_pkg_node.cpp` | 发布 `goal_pose`、订阅 `GoalStatusArray`（导航目标演示） |
 | `yhs_tutorials/nav_pkg1/` | 导航示例变体 |
-| [tools/tf.py](file:///Users/waiyu/Downloads/src/tools/tf.py) | 欧拉角→四元数发布示例 |
-| [tools/select_car.sh](file:///Users/waiyu/Downloads/src/tools/select_car.sh) | 交互式选择车型，把对应车型 launch 拷贝为 `robot.launch.py`（路径为 `/home/yhs/ros2_ws`，需按实际环境修改） |
+| [tools/tf.py](../src/tools/tf.py) | 欧拉角→四元数发布示例 |
+| [tools/select_car.sh](../src/tools/select_car.sh) | 交互式选择车型，把对应车型 launch 拷贝为 `robot.launch.py`（脚本内固定为 `/home/yhs/ros2_ws`，实际工作空间不同时需先修改） |
 
 ---
 
@@ -350,15 +350,15 @@ cartographer ──► cartographer_ros ──► cartographer_ros_msgs
 
 | 连接 | 话题（实际解析后） | 类型 / QoS | 来源与转发 |
 |---|---|---|---|
-| 雷达 → 定位/规划/建图 | `/scan` | `LaserScan` / `SensorDataQoS`（best effort） | [nvilidar_ros2_node.cpp](file:///Users/waiyu/Downloads/src/hardware/nvilidar_ros2/src/nvilidar_ros2_node.cpp#L110) 发布；AMCL 用 `rmw_qos_profile_sensor_data` 订阅，QoS 匹配 |
+| 雷达 → 定位/规划/建图 | `/scan` | `LaserScan` / `SensorDataQoS`（best effort） | [nvilidar_ros2_node.cpp](../src/hardware/nvilidar_ros2/src/nvilidar_ros2_node.cpp#L110) 发布；AMCL 用 `rmw_qos_profile_sensor_data` 订阅，QoS 匹配 |
 | 相机点云 → 第二激光 | `/scan1` | `LaserScan` | `pointcloud_to_laserscan` 将 `cloud_in` 重映射为 `camera/depth/points`，`scan` 重映射为 `scan1` |
 | IMU → 底盘 | `/imu_data` | `Imu` | `serial_imu` 发布；`yhs_can_control` 订阅同一名字 |
-| IMU → 建图 | `imu_data`（Cartographer 内部名） | `Imu` | [dgt_mini.launch.py](file:///Users/waiyu/Downloads/src/cartographer_ros/cartographer_ros/launch/dgt_mini.launch.py#L39-L42) `('imu','imu_data')` 重映射 |
+| IMU → 建图 | `imu_data`（Cartographer 内部名） | `Imu` | [dgt_mini.launch.py](../src/cartographer_ros/cartographer_ros/launch/dgt_mini.launch.py#L39-L42) `('imu','imu_data')` 重映射 |
 | 底盘 → 定位/控制 | `/odom` | `Odometry` | `yhs_can_control` 发布，`odom` 帧 → `base_link` 帧 |
 | 地图 → 定位/规划 | `/map` | `OccupancyGrid` / transient_local | `map_server` 或 `cartographer_occupancy_grid_node` 发布 |
 | 规划 → 控制 | `/plan` | `Path` | `planner_server` 发布，`controller_server` 订阅 |
-| 控制 → 平滑 | `cmd_vel_nav` | `Twist` | [navigation_launch.py](file:///Users/waiyu/Downloads/src/yhs_nav2/launch/navigation_launch.py#L93) 把 `controller_server` 的 `cmd_vel` 重映射为 `cmd_vel_nav` |
-| 平滑 → 底盘 | `/cmd_vel` | `Twist` | [navigation_launch.py](file:///Users/waiyu/Downloads/src/yhs_nav2/launch/navigation_launch.py#L153-L154) 把 `velocity_smoother` 的 `cmd_vel` 收到 `cmd_vel_nav`，`cmd_vel_smoothed` 发出为 `cmd_vel` |
+| 控制 → 平滑 | `cmd_vel_nav` | `Twist` | [navigation_launch.py](../src/yhs_nav2/launch/navigation_launch.py#L93) 把 `controller_server` 的 `cmd_vel` 重映射为 `cmd_vel_nav` |
+| 平滑 → 底盘 | `/cmd_vel` | `Twist` | [navigation_launch.py](../src/yhs_nav2/launch/navigation_launch.py#L153-L154) 把 `velocity_smoother` 的 `cmd_vel` 收到 `cmd_vel_nav`，`cmd_vel_smoothed` 发出为 `cmd_vel` |
 | 定位结果 | `/amcl_pose`、`/particle_cloud` | `PoseWithCovarianceStamped`、`ParticleCloud` | AMCL → RViz/监控 |
 | 底盘状态 | `/chassis_info_fb` | `ChassisInfoFb` | 轮速、IO、BMS 聚合反馈 |
 | 记录路径 | `/record_path` | `Path` | 示教端 → `NavigateFollowRecordPathNavigator` |
@@ -367,7 +367,7 @@ cartographer ──► cartographer_ros ──► cartographer_ros_msgs
 
 1. 控制输出统一走 `cmd_vel_nav`，只有 `velocity_smoother` 有资格发 `cmd_vel` —— 这样速度限幅对**所有**控制源（TEB、恢复行为）都生效。
 2. `controller_server` 与 `velocity_smoother` 都做了 `('/tf','tf')`、`('/tf_static','tf_static')` 重映射，避免命名空间下 TF 话题被二次加前缀。
-3. `RewrittenYaml` 把 launch 参数 `map` 注入为所有节点的 `yaml_filename`，因此 `yhs_nav2.yaml` 里写死的 `map.yaml` 不会生效（[yhs_nav2.launch.py](file:///Users/waiyu/Downloads/src/yhs_nav2/launch/yhs_nav2.launch.py#L43-L51)）。
+3. `RewrittenYaml` 把 launch 参数 `map` 注入为所有节点的 `yaml_filename`，因此 `yhs_nav2.yaml` 里写死的 `map.yaml` 不会生效（[yhs_nav2.launch.py](../src/yhs_nav2/launch/yhs_nav2.launch.py#L43-L51)）。
 
 ### 2.5 调用关联逻辑
 
@@ -514,16 +514,16 @@ base_link ──(pointcloud_to_laserscan launch 静态)──► camera_link
 ### 2.8 配置与代码一致性核对（会直接影响链路的 9 项）
 
 1. **组合模式未真正生效**：`yhs_nav2.launch.py` 启动了 `nav2_container`，但 `localization_launch.py`/`navigation_launch.py` 用的是独立 `Node` 而非 `LoadComposableNodes`。因此 `use_composition:=true` 只会多出一个空容器，各服务器仍是独立进程（不影响功能，但 IPC 开销与预期不符）。
-2. **`bt_navigator` 的 BT 文件名参数失效**：yaml 写的是旧键 `default_bt_xml_filename`，而源码声明的是 `default_nav_to_pose_bt_xml`（[navigate_to_pose.cpp](file:///Users/waiyu/Downloads/src/navigation2/nav2_bt_navigator/src/navigators/navigate_to_pose.cpp#L70-L79)）。且 yaml 指定的 `navigate_w_replanning_and_recovery.xml` 在 `behavior_trees/` 中**不存在**。实际生效的是源码默认值 `navigate_to_pose_w_replanning_and_recovery.xml`。
-3. **恢复行为参数块失效**：yaml 的 `recoveries_server` 节点名与实际节点 `behavior_server` 不一致，且参数键应为 `behavior_plugins`（[behavior_server.cpp](file:///Users/waiyu/Downloads/src/navigation2/nav2_behaviors/src/behavior_server.cpp#L24-L41)），插件类名也已从 `nav2_recoveries/*` 改为 `nav2_behaviors/*`。结果：该段配置完全不生效，恢复行为改用源码默认值（`Spin/BackUp/DriveOnHeading/Wait`）。
+2. **`bt_navigator` 的 BT 文件名参数失效**：yaml 写的是旧键 `default_bt_xml_filename`，而源码声明的是 `default_nav_to_pose_bt_xml`（[navigate_to_pose.cpp](../src/navigation2/nav2_bt_navigator/src/navigators/navigate_to_pose.cpp#L70-L79)）。且 yaml 指定的 `navigate_w_replanning_and_recovery.xml` 在 `behavior_trees/` 中**不存在**。实际生效的是源码默认值 `navigate_to_pose_w_replanning_and_recovery.xml`。
+3. **恢复行为参数块失效**：yaml 的 `recoveries_server` 节点名与实际节点 `behavior_server` 不一致，且参数键应为 `behavior_plugins`（[behavior_server.cpp](../src/navigation2/nav2_behaviors/src/behavior_server.cpp#L24-L41)），插件类名也已从 `nav2_recoveries/*` 改为 `nav2_behaviors/*`。结果：该段配置完全不生效，恢复行为改用源码默认值（`Spin/BackUp/DriveOnHeading/Wait`）。
 4. **缺少 `velocity_smoother`、`smoother_server`、`behavior_server` 参数段**：这三个节点全部以默认参数运行。`velocity_smoother` 默认 `max_velocity=[0.5,0,2.5]`、`smoothing_frequency=20`、`feedback=OPEN_LOOP`，恰好与 TEB 的 0.5 m/s 上限一致，但显式配置更安全。
 5. **局部代价地图没有膨胀层**：`local_costmap.plugins` 只列了 `static_layer`、`obstacle_layer`，但下面又写了 `inflation_layer` 配置。该配置不生效，局部避障完全依赖 TEB 的 `min_obstacle_dist=0.45` 与 `inflation_dist=0.6` 兜底。
-6. **`/scan1` 观测源长期为空**：两个 costmap 都配置了 `scan1`，但总 launch 中相机与 `pointcloud_to_laserscan` 被注释（[yhs_nav2.launch.py](file:///Users/waiyu/Downloads/src/yhs_nav2/launch/yhs_nav2.launch.py#L133-L146)）。不影响主链路，但会让代价地图日志持续提示该源无数据。
+6. **`/scan1` 观测源长期为空**：两个 costmap 都配置了 `scan1`，但总 launch 中相机与 `pointcloud_to_laserscan` 被注释（[yhs_nav2.launch.py](../src/yhs_nav2/launch/yhs_nav2.launch.py#L133-L146)）。不影响主链路，但会让代价地图日志持续提示该源无数据。
 7. **`yhs_nav2` 未声明运行依赖**：`package.xml` 只有 `ament_cmake` 与 lint 依赖，launch 实际依赖 `serial_imu`、`nvilidar_ros2`、`yhs_can_control`、`nav2_*`、`teb_local_planner` 均未声明，`rosdep install` 与依赖图排序会漏项。
 8. **雷达 launch 硬编码命名空间**：`nvilidar.launch.py` 写死 `namespace='/'`，也没有声明 `use_sim_time`，总 launch 传入的这些参数对它无效；IMU launch 同样未声明 `namespace`。
 9. **底盘参数文件未真正加载**：`yhs_can_control.launch.py` 写成 `parameters=[{parameter_file}, {'use_tf': use_tf}]`，第一个元素是**集合字面量**而非路径字符串，`cfg.yaml` 不会被读取。好在源码默认值 `can_name="can0"`、`use_tf=false` 与 `cfg.yaml`/launch 意图一致，`use_tf` 又由第二个 dict 覆盖，所以功能上看不出异常。
 
-> 另外两个小问题：`cartographer_occupancy_grid_node` 的 `use_sim_time` 在 [dgt_mini.launch.py](file:///Users/waiyu/Downloads/src/cartographer_ros/cartographer_ros/launch/dgt_mini.launch.py#L49-L51) 中硬编码为 `True`；`yhs_can_interfaces/CMakeLists.txt` 的条件变量拼写为 `CMAKECOMPILER_IS_GNUCXX`（缺少下划线），使该编译选项块恒不生效。
+> 另外两个小问题：`cartographer_occupancy_grid_node` 的 `use_sim_time` 在 [dgt_mini.launch.py](../src/cartographer_ros/cartographer_ros/launch/dgt_mini.launch.py#L49-L51) 中硬编码为 `True`；`yhs_can_interfaces/CMakeLists.txt` 的条件变量拼写为 `CMAKECOMPILER_IS_GNUCXX`（缺少下划线），使该编译选项块恒不生效。
 >
 > 上述问题的可执行补丁、优先级与回归步骤见 **第 8 章 修复方案**。
 
@@ -540,8 +540,8 @@ base_link ──(pointcloud_to_laserscan launch 静态)──► camera_link
    ```
 2. **CAN 总线**：内核加载 `can` 模块，配置 `can0`（波特率需与底盘匹配，通常 500k），并 `sudo ip link set can0 up type can bitrate 500000`。
 3. **设备权限**：用户加入 `dialout`；为雷达/IMU 固定设备名：
-   - 雷达参数为 `/dev/lidar`（[nvilidar.yaml](file:///Users/waiyu/Downloads/src/hardware/nvilidar_ros2/params/nvilidar.yaml)），需 udev 规则或软链接。
-   - IMU 源码硬编码 `/dev/imu`（[serial_port.cpp](file:///Users/waiyu/Downloads/src/hardware/serial_imu/src/serial_port.cpp#L17)），需 udev 规则。
+   - 雷达参数为 `/dev/lidar`（[nvilidar.yaml](../src/hardware/nvilidar_ros2/params/nvilidar.yaml)），需 udev 规则或软链接。
+   - IMU 源码硬编码 `/dev/imu`（[serial_port.cpp](../src/hardware/serial_imu/src/serial_port.cpp#L17)），需 udev 规则。
 4. **编译**：
    ```bash
    cd <工作空间>
@@ -650,10 +650,10 @@ ros2 run yhs_nav2 set_init_amcl_pose.py --ros-args -p x:=0.0 -p y:=0.0 -p theta:
    SUBSYSTEM=="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="lidar", MODE="0777"
    # IMU 按实际 VID/PID 建 /dev/imu
    ```
-2. **`use_sim_time` 硬编码**：[dgt_mini.launch.py](file:///Users/waiyu/Downloads/src/cartographer_ros/cartographer_ros/launch/dgt_mini.launch.py#L50) 中 `cartographer_occupancy_grid_node` 固定 `use_sim_time: True`，实车建图可能出现时间戳异常，建议改为参数化。
+2. **`use_sim_time` 硬编码**：[dgt_mini.launch.py](../src/cartographer_ros/cartographer_ros/launch/dgt_mini.launch.py#L50) 中 `cartographer_occupancy_grid_node` 固定 `use_sim_time: True`，实车建图可能出现时间戳异常，建议改为参数化。
 3. **TF 冲突**：建图时 Cartographer 发 `map→odom` 与 `odom→base_link`，导航时 AMCL 发 `map→odom`、底盘发 `odom→base_link`。切换阶段必须先停掉另一方；建图 launch 已把 `use_tf` 默认置 `false`。
-4. **robot.urdf 网格路径**：[robot.urdf](file:///Users/waiyu/Downloads/src/yhs_chassis_description/urdf/robot.urdf) 引用 `mesh/autocube.STL` 不存在，实际用车型专用 URDF。
-5. **select_car.sh 路径**：硬编码 `/home/yhs/ros2_ws`，与本机 `/Users/waiyu/Downloads/src` 不符，仅作参考。
+4. **robot.urdf 网格路径**：[robot.urdf](../src/yhs_chassis_description/urdf/robot.urdf) 引用 `mesh/autocube.STL` 不存在，实际用车型专用 URDF。
+5. **select_car.sh 路径**：脚本内固定为 `/home/yhs/ros2_ws`；若实际工作空间为其他位置（如 `~/ros2_ws`），需先修改再执行。
 6. **`/scan1` 依赖相机**：costmap 的 `scan1` 源只有在相机 + `pointcloud_to_laserscan` 启动后才存在；默认 launch 中相机已注释，故通常只有 `/scan`，不影响主流程。
 7. **TEB 依赖 `costmap_converter`**：`dependence/costmap_converter` 必须编译安装，否则 TEB 加载 `CostmapToPolygonsDBSMCCH` 失败。
 8. **recoveries_server 命名**：yaml 用旧键 `recoveries_server`，而 launch 启动的是 `behavior_server`（Nav2 新命名），二者是否对齐需按实际 Nav2 版本确认；本工程主要恢复由 `bt_navigator` 的 BT 触发。
@@ -682,7 +682,7 @@ ros2 run yhs_nav2 set_init_amcl_pose.py --ros-args -p x:=0.0 -p y:=0.0 -p theta:
 
 ### 8.1 组合模式未真正生效（优先级 P2）
 
-**根因**：[yhs_nav2.launch.py](file:///Users/waiyu/Downloads/src/yhs_nav2/launch/yhs_nav2.launch.py#L109-L117) 用 `rclcpp_components/component_container_isolated` 起了 `nav2_container`，但 `localization_launch.py`、`navigation_launch.py` 里全部是独立 `Node`，没有任何 `LoadComposableNodes`。容器是空的，`use_composition` 只增加了空进程。
+**根因**：[yhs_nav2.launch.py](../src/yhs_nav2/launch/yhs_nav2.launch.py#L109-L117) 用 `rclcpp_components/component_container_isolated` 起了 `nav2_container`，但 `localization_launch.py`、`navigation_launch.py` 里全部是独立 `Node`，没有任何 `LoadComposableNodes`。容器是空的，`use_composition` 只增加了空进程。
 
 **方案 A（推荐，最小改动）**：去掉容器，明确关闭组合模式。
 
@@ -751,7 +751,7 @@ load_nodes = GroupAction(actions=[
 
 ### 8.2 `bt_navigator` 的 BT 文件名参数失效（优先级 P1）
 
-**根因**：YAML 使用旧键 `default_bt_xml_filename`，而源码声明的是 `default_nav_to_pose_bt_xml`（[navigate_to_pose.cpp](file:///Users/waiyu/Downloads/src/navigation2/nav2_bt_navigator/src/navigators/navigate_to_pose.cpp#L70-L79)）；且 `navigate_w_replanning_and_recovery.xml` 在 `behavior_trees/` 下不存在。
+**根因**：YAML 使用旧键 `default_bt_xml_filename`，而源码声明的是 `default_nav_to_pose_bt_xml`（[navigate_to_pose.cpp](../src/navigation2/nav2_bt_navigator/src/navigators/navigate_to_pose.cpp#L70-L79)）；且 `navigate_w_replanning_and_recovery.xml` 在 `behavior_trees/` 下不存在。
 
 **补丁**：删除旧键，交给源码默认值（默认值已是指向 share 目录的绝对路径）。
 
@@ -781,7 +781,7 @@ ros2 topic echo /behavior_tree_log --once
 
 ### 8.3 恢复行为参数整段失效（优先级 P0，安全相关）
 
-**根因**：YAML 节点名 `recoveries_server` 与实际节点 `behavior_server` 不符；参数键应为 `behavior_plugins`（[behavior_server.cpp](file:///Users/waiyu/Downloads/src/navigation2/nav2_behaviors/src/behavior_server.cpp#L24-L48)）；插件类名已从 `nav2_recoveries/*` 改为 `nav2_behaviors/*`。当前恢复行为全部跑源码默认值，其中 `max_rotational_vel=1.0 rad/s` 是 TEB 上限（0.3）的 3 倍。
+**根因**：YAML 节点名 `recoveries_server` 与实际节点 `behavior_server` 不符；参数键应为 `behavior_plugins`（[behavior_server.cpp](../src/navigation2/nav2_behaviors/src/behavior_server.cpp#L24-L48)）；插件类名已从 `nav2_recoveries/*` 改为 `nav2_behaviors/*`。当前恢复行为全部跑源码默认值，其中 `max_rotational_vel=1.0 rad/s` 是 TEB 上限（0.3）的 3 倍。
 
 **补丁**：整段替换 `recoveries_server:` 为以下内容。
 
@@ -867,7 +867,7 @@ ros2 topic hz /cmd_vel          # 约 20 Hz
 
 ### 8.5 局部代价地图缺少膨胀层（优先级 P0，安全相关）
 
-**根因**：[yhs_nav2.yaml](file:///Users/waiyu/Downloads/src/yhs_nav2/param/yhs_nav2.yaml#L251-L255) 的 `local_costmap.plugins` 只有 `static_layer`、`obstacle_layer`，下方 `inflation_layer` 配置因未列入 `plugins` 而不加载。局部避障只能依赖 TEB 的 `min_obstacle_dist=0.45`，而 `controller_server` 的碰撞检查、恢复行为都直接读取局部代价地图，风险偏高。
+**根因**：[yhs_nav2.yaml](../src/yhs_nav2/param/yhs_nav2.yaml#L251-L255) 的 `local_costmap.plugins` 只有 `static_layer`、`obstacle_layer`，下方 `inflation_layer` 配置因未列入 `plugins` 而不加载。局部避障只能依赖 TEB 的 `min_obstacle_dist=0.45`，而 `controller_server` 的碰撞检查、恢复行为都直接读取局部代价地图，风险偏高。
 
 **补丁**：
 
@@ -887,7 +887,7 @@ local_costmap:
 
 ### 8.6 `/scan1` 观测源长期为空（优先级 P2）
 
-**根因**：两个 costmap 都配置 `observation_sources: scan scan1`，但总 launch 中相机与 `pointcloud_to_laserscan` 被注释（[yhs_nav2.launch.py](file:///Users/waiyu/Downloads/src/yhs_nav2/launch/yhs_nav2.launch.py#L133-L146)）。`obstacle_layer` 会持续等待该源，产生告警并浪费 TF 查询。
+**根因**：两个 costmap 都配置 `observation_sources: scan scan1`，但总 launch 中相机与 `pointcloud_to_laserscan` 被注释（[yhs_nav2.launch.py](../src/yhs_nav2/launch/yhs_nav2.launch.py#L133-L146)）。`obstacle_layer` 会持续等待该源，产生告警并浪费 TF 查询。
 
 **方案 A（推荐，无相机时）**：删掉 `scan1`。
 
@@ -907,7 +907,7 @@ obstacle_layer:
 **方案 B（启用深度相机）**：同时打开三处配置：
 
 1. `yhs_nav2.launch.py` 中取消 `astra.launch.py`（或按实际型号改 `gemini2.launch.py`）与 `pointcloud_to_laserscan.launch.py` 的注释。
-2. [pointcloud_to_laserscan.launch.py](file:///Users/waiyu/Downloads/src/pointcloud_to_laserscan/launch/pointcloud_to_laserscan.launch.py#L20-L32) 中 `range_max` 由 `1.0` 改为 `3.0`（当前 1 m 对导航避障过短），`target_frame` 与相机 TF 保持一致。
+2. [pointcloud_to_laserscan.launch.py](../src/pointcloud_to_laserscan/launch/pointcloud_to_laserscan.launch.py#L20-L32) 中 `range_max` 由 `1.0` 改为 `3.0`（当前 1 m 对导航避障过短），`target_frame` 与相机 TF 保持一致。
 3. 确认 `/camera/depth/points` 有数据：`ros2 topic hz /camera/depth/points`。
 
 **验证**：`ros2 topic hz /scan1`；无数据时 costmap 日志不再刷 “The scan1 observation buffer has not been updated”。
@@ -964,4 +964,4 @@ ros2 topic hz /cmd_vel
 9. `teb_local_planner` → 局部控制
 10. `navigation2/nav2_bt_navigator` + `navigate_follow_record_path` → 行为树决策与定制
 
-> 面向技师学院教学场景的课程化拆解（模块划分、学时、任务情景、验收标准与排故手册）见 [ROS2自动驾驶入门课程标准.md](file:///Users/waiyu/Downloads/src/ROS2自动驾驶入门课程标准.md)。
+> 面向技师学院教学场景的课程化拆解（模块划分、学时、任务情景、验收标准与排故手册）见 [ROS2自动驾驶入门课程标准.md](ROS2自动驾驶入门课程标准.md)。

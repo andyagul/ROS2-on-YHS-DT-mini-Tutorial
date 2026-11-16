@@ -277,9 +277,11 @@ rosdep update
 
 ### 3. 获取源码与编译
 
+**路径约定**：本仓库克隆后即为 ROS 2 工作空间根目录，统一使用 `~/ros2_ws`；源码目录为 `~/ros2_ws/src`，`install/`、`build/` 由 `colcon` 在该目录下生成。Tutorial 与实验手册中出现的 `$WS` 均指 `~/ros2_ws`（`export WS="$HOME/ros2_ws"`），若放在其他位置，请同步修改该变量或对应路径。
+
 ```bash
-git clone https://github.com/andyagul/ROS2-on-YHS-DT-mini-Tutorial.git
-cd "ROS2 on YHS DT-mini Tutorial"
+git clone https://github.com/andyagul/ROS2-on-YHS-DT-mini-Tutorial.git ~/ros2_ws
+cd ~/ros2_ws
 
 source /opt/ros/humble/setup.bash
 rosdep install --from-paths src --ignore-src -r -y
@@ -331,7 +333,7 @@ ros2 run yhs_nav2 set_init_amcl_pose.py --ros-args -p x:=0.0 -p y:=0.0 -p theta:
 ```bash
 # 环境
 source /opt/ros/humble/setup.bash
-source ~/"ROS2 on YHS DT-mini Tutorial"/install/setup.bash
+source ~/ros2_ws/install/setup.bash
 colcon build --symlink-install --packages-select yhs_nav2
 
 # 底盘
@@ -432,13 +434,13 @@ rqt_graph
 ## 仓库目录结构
 
 ```
-ROS2 on YHS DT-mini Tutorial/
+~/ros2_ws/
 ├── README.md                         # 本文件：课程资源导览
 ├── Tutorial/
 │   ├── ROS2自动驾驶入门课程标准.md    # 课程标准（定位/目标/条件/M0-M12/考核）
 │   ├── ROS2小车系统架构分析.md        # 源码架构剖析（逐包/逐话题/逐 launch）
 │   └── 二次开发项目清单.md            # 三级难度二次开发项目（参数/脚本/功能包）
-└── src/                              # ROS 2 工作空间
+└── src/                              # ROS 2 工作空间源码（~/ros2_ws/src）
     ├── yhs_can_interfaces/           # M3 底盘 msg / action 定义
     ├── yhs_can_control/              # M3 CAN 驱动（M3 核心）
     ├── yhs_chassis_description/      # M0 / M5 多车型 URDF 与 STL

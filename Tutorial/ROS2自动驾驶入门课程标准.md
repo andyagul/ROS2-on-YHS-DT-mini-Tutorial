@@ -267,7 +267,7 @@ TurtleBot3 模型与示例地图、Gazebo/Ignition 仿真、`tb3_simulation_laun
    ```
 2. 依赖与编译：
    ```bash
-   cd ~/ros2_lite_ws
+   cd ~/ros2_ws
    rosdep install --from-paths src --ignore-src -r -y
    colcon build --symlink-install
    source install/setup.bash
@@ -283,7 +283,7 @@ TurtleBot3 模型与示例地图、Gazebo/Ignition 仿真、`tb3_simulation_laun
 
 - 仅修改 `~/.bashrc` 与环境变量，不改业务源码；
 - 若工作空间路径不同，后续所有命令中的路径需同步替换；
-- 编译参数可参考 [COLCON_BUILD.md](file:///Users/waiyu/Downloads/src/COLCON_BUILD.md)。
+- 编译参数可参考 [COLCON_BUILD.md](../src/COLCON_BUILD.md)。
 
 **验收标准**
 
@@ -355,12 +355,12 @@ TurtleBot3 模型与示例地图、Gazebo/Ignition 仿真、`tb3_simulation_laun
    ```bash
    ros2 run lidar_pkg lidar_pkg_node
    ```
-   修改 [lidar_data_node.cpp](file:///Users/waiyu/Downloads/src/yhs_tutorials/lidar_pkg/src/lidar_data_node.cpp)：统计有效点数与最近距离。
+   修改 [lidar_data_node.cpp](../src/yhs_tutorials/lidar_pkg/src/lidar_data_node.cpp)：统计有效点数与最近距离。
 3. 速度发布（架空）：
    ```bash
    ros2 run vel_pub vel_pub_node
    ```
-   修改 [vel_pub_node.cpp](file:///Users/waiyu/Downloads/src/yhs_tutorials/vel_pub/src/vel_pub_node.cpp)：线速度改为 0.05，角速度改为 0。
+   修改 [vel_pub_node.cpp](../src/yhs_tutorials/vel_pub/src/vel_pub_node.cpp)：线速度改为 0.05，角速度改为 0。
 4. 导航目标示例（整车栈启动后）：
    ```bash
    ros2 run nav_pkg nav_pkg_node
@@ -454,13 +454,13 @@ TurtleBot3 模型与示例地图、Gazebo/Ignition 仿真、`tb3_simulation_laun
    ```
 4. 里程计标定：1 m 直线、原地 90°，各测 3 次取平均。
 5. 反馈解析：观察左右轮速、BMS 电压与急停状态。
-6. 限速修改：编辑 [cmd_callback](file:///Users/waiyu/Downloads/src/yhs_can_control/src/yhs_can_control_node.cpp#L153-L161) 加入限幅，重编译验证。
+6. 限速修改：编辑 [cmd_callback](../src/yhs_can_control/src/yhs_can_control_node.cpp#L153-L161) 加入限幅，重编译验证。
 
 **源代码 / 配置修改要点**
 
-- [yhs_can_control_node.cpp](file:///Users/waiyu/Downloads/src/yhs_can_control/src/yhs_can_control_node.cpp)：`cmd_callback` 指令映射、`publish_odom` 积分与 IMU 朝向；
-- [cfg.yaml](file:///Users/waiyu/Downloads/src/yhs_can_control/params/cfg.yaml)：`can_name`；
-- [yhs_can_control.launch.py](file:///Users/waiyu/Downloads/src/yhs_can_control/launch/yhs_can_control.launch.py)：`use_tf`；
+- [yhs_can_control_node.cpp](../src/yhs_can_control/src/yhs_can_control_node.cpp)：`cmd_callback` 指令映射、`publish_odom` 积分与 IMU 朝向；
+- [cfg.yaml](../src/yhs_can_control/params/cfg.yaml)：`can_name`；
+- [yhs_can_control.launch.py](../src/yhs_can_control/launch/yhs_can_control.launch.py)：`use_tf`；
 - 注意 launch 中参数文件以集合字面量传入，`cfg.yaml` 实际不生效，需按架构分析 2.8 修正或依赖源码默认值。
 
 **验收标准**
@@ -547,10 +547,10 @@ TurtleBot3 模型与示例地图、Gazebo/Ignition 仿真、`tb3_simulation_laun
 
 **源代码 / 配置修改要点**
 
-- [nvilidar.yaml](file:///Users/waiyu/Downloads/src/hardware/nvilidar_ros2/params/nvilidar.yaml)：串口、波特率、`frame_id`、角度、量程、滤波；
-- [nvilidar.launch.py](file:///Users/waiyu/Downloads/src/hardware/nvilidar_ros2/launch/nvilidar.launch.py#L30-L34)：静态 TF 的 `z=0.33` 按实测修改；
-- [serial_port.cpp](file:///Users/waiyu/Downloads/src/hardware/serial_imu/src/serial_port.cpp#L17-L18)：`IMU_SERIAL`、`BAUD`；
-- [pointcloud_to_laserscan.launch.py](file:///Users/waiyu/Downloads/src/pointcloud_to_laserscan/launch/pointcloud_to_laserscan.launch.py#L20-L32)：`range_max` 建议由 1.0 改 3.0。
+- [nvilidar.yaml](../src/hardware/nvilidar_ros2/params/nvilidar.yaml)：串口、波特率、`frame_id`、角度、量程、滤波；
+- [nvilidar.launch.py](../src/hardware/nvilidar_ros2/launch/nvilidar.launch.py#L30-L34)：静态 TF 的 `z=0.33` 按实测修改；
+- [serial_port.cpp](../src/hardware/serial_imu/src/serial_port.cpp#L17-L18)：`IMU_SERIAL`、`BAUD`；
+- [pointcloud_to_laserscan.launch.py](../src/pointcloud_to_laserscan/launch/pointcloud_to_laserscan.launch.py#L20-L32)：`range_max` 建议由 1.0 改 3.0。
 
 **验收标准**
 
@@ -625,8 +625,8 @@ TurtleBot3 模型与示例地图、Gazebo/Ignition 仿真、`tb3_simulation_laun
 
 **源代码 / 配置修改要点**
 
-- [DT-mini.urdf](file:///Users/waiyu/Downloads/src/yhs_chassis_description/urdf/DT-mini.urdf)：网格路径、轮距、车体尺寸；
-- [robot.launch.py](file:///Users/waiyu/Downloads/src/yhs_chassis_description/launch/robot.launch.py)：`urdf_model`、`use_rviz`；
+- [DT-mini.urdf](../src/yhs_chassis_description/urdf/DT-mini.urdf)：网格路径、轮距、车体尺寸；
+- [robot.launch.py](../src/yhs_chassis_description/launch/robot.launch.py)：`urdf_model`、`use_rviz`；
 - `tools/select_car.sh` 可切换车型，但脚本路径为厂家路径，需按本机修改；
 - `robot.urdf` 引用的 `mesh/autocube.STL` 不存在，统一使用车型专用 URDF。
 
@@ -686,7 +686,7 @@ TurtleBot3 模型与示例地图、Gazebo/Ignition 仿真、`tb3_simulation_laun
 
 **实操任务**
 
-1. 阅读 [yhs_nav2.launch.py](file:///Users/waiyu/Downloads/src/yhs_nav2/launch/yhs_nav2.launch.py#L120-L175)，标注 Include 与参数。
+1. 阅读 [yhs_nav2.launch.py](../src/yhs_nav2/launch/yhs_nav2.launch.py#L120-L175)，标注 Include 与参数。
 2. 启动全栈：
    ```bash
    ros2 launch yhs_nav2 yhs_nav2.launch.py
@@ -704,7 +704,7 @@ TurtleBot3 模型与示例地图、Gazebo/Ignition 仿真、`tb3_simulation_laun
    ros2 param get /amcl scan_topic
    ros2 param get /controller_server FollowPath.plugin
    ```
-5. 对比建图入口 [cartographer.launch.py](file:///Users/waiyu/Downloads/src/yhs_nav2/launch/cartographer.launch.py#L76-L111)。
+5. 对比建图入口 [cartographer.launch.py](../src/yhs_nav2/launch/cartographer.launch.py#L76-L111)。
 
 **源代码 / 配置修改要点**
 
@@ -788,9 +788,9 @@ TurtleBot3 模型与示例地图、Gazebo/Ignition 仿真、`tb3_simulation_laun
 
 **源代码 / 配置修改要点**
 
-- [dgt_mini.lua](file:///Users/waiyu/Downloads/src/cartographer_ros/cartographer_ros/configuration_files/dgt_mini.lua)：坐标系、`provide_odom_frame`、`use_odometry`、`use_imu_data`、子图与优化频率、运动滤波；
-- [dgt_mini.launch.py](file:///Users/waiyu/Downloads/src/cartographer_ros/cartographer_ros/launch/dgt_mini.launch.py)：分辨率 0.05；`cartographer_occupancy_grid_node` 的 `use_sim_time` 硬编码为 `True`，实车异常时改为参数化；
-- [cartographer.launch.py](file:///Users/waiyu/Downloads/src/yhs_nav2/launch/cartographer.launch.py#L39)：`use_tf` 默认 `false`。
+- [dgt_mini.lua](../src/cartographer_ros/cartographer_ros/configuration_files/dgt_mini.lua)：坐标系、`provide_odom_frame`、`use_odometry`、`use_imu_data`、子图与优化频率、运动滤波；
+- [dgt_mini.launch.py](../src/cartographer_ros/cartographer_ros/launch/dgt_mini.launch.py)：分辨率 0.05；`cartographer_occupancy_grid_node` 的 `use_sim_time` 硬编码为 `True`，实车异常时改为参数化；
+- [cartographer.launch.py](../src/yhs_nav2/launch/cartographer.launch.py#L39)：`use_tf` 默认 `false`。
 
 **验收标准**
 
@@ -868,8 +868,8 @@ TurtleBot3 模型与示例地图、Gazebo/Ignition 仿真、`tb3_simulation_laun
 
 **源代码 / 配置修改要点**
 
-- [yhs_nav2.yaml](file:///Users/waiyu/Downloads/src/yhs_nav2/param/yhs_nav2.yaml#L1-L53)：AMCL 模型、`max_beams`、粒子数、更新阈值、`set_initial_pose`；
-- [local_costmap](file:///Users/waiyu/Downloads/src/yhs_nav2/param/yhs_nav2.yaml#L237-L282) 与 [global_costmap](file:///Users/waiyu/Downloads/src/yhs_nav2/param/yhs_nav2.yaml#L283-L334)：插件、footprint、膨胀、观测源；
+- [yhs_nav2.yaml](../src/yhs_nav2/param/yhs_nav2.yaml#L1-L53)：AMCL 模型、`max_beams`、粒子数、更新阈值、`set_initial_pose`；
+- [local_costmap](../src/yhs_nav2/param/yhs_nav2.yaml#L237-L282) 与 [global_costmap](../src/yhs_nav2/param/yhs_nav2.yaml#L283-L334)：插件、footprint、膨胀、观测源；
 - 必做修正：局部 `plugins` 增加 `inflation_layer`（架构分析 8.5）；
 - `set_initial_pose: True` 且原点初始化，要求建图/导航起点一致。
 
@@ -949,7 +949,7 @@ TurtleBot3 模型与示例地图、Gazebo/Ignition 仿真、`tb3_simulation_laun
 
 **源代码 / 配置修改要点**
 
-- [yhs_nav2.yaml](file:///Users/waiyu/Downloads/src/yhs_nav2/param/yhs_nav2.yaml#L348-L357)：`GridBased` 插件与参数；
+- [yhs_nav2.yaml](../src/yhs_nav2/param/yhs_nav2.yaml#L348-L357)：`GridBased` 插件与参数；
 - 注释区的 SMAC 配置不使用；
 - `planner_server` 需等全局代价地图更新完成。
 
@@ -1025,9 +1025,9 @@ TurtleBot3 模型与示例地图、Gazebo/Ignition 仿真、`tb3_simulation_laun
 
 **源代码 / 配置修改要点**
 
-- [yhs_nav2.yaml](file:///Users/waiyu/Downloads/src/yhs_nav2/param/yhs_nav2.yaml#L129-L231)：TEB 速度、加速度、footprint、障碍距离、权重；
+- [yhs_nav2.yaml](../src/yhs_nav2/param/yhs_nav2.yaml#L129-L231)：TEB 速度、加速度、footprint、障碍距离、权重；
 - `velocity_smoother` 当前无参数段，按架构分析 8.4 补齐；
-- 控制链路 remap：[navigation_launch.py](file:///Users/waiyu/Downloads/src/yhs_nav2/launch/navigation_launch.py#L93) 与 [同文件](file:///Users/waiyu/Downloads/src/yhs_nav2/launch/navigation_launch.py#L153-L154)。
+- 控制链路 remap：[navigation_launch.py](../src/yhs_nav2/launch/navigation_launch.py#L93) 与 [同文件](../src/yhs_nav2/launch/navigation_launch.py#L153-L154)。
 
 **验收标准**
 
@@ -1091,23 +1091,23 @@ TurtleBot3 模型与示例地图、Gazebo/Ignition 仿真、`tb3_simulation_laun
    ```bash
    ros2 topic echo /behavior_tree_log
    ```
-   对照 [navigate_to_pose_w_replanning_and_recovery.xml](file:///Users/waiyu/Downloads/src/navigation2/nav2_bt_navigator/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml)。
+   对照 [navigate_to_pose_w_replanning_and_recovery.xml](../src/navigation2/nav2_bt_navigator/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml)。
 2. 修改 BT：复制 XML，把重规划频率改为 0.5 Hz，用绝对路径参数加载（Humble 键名为 `default_nav_to_pose_bt_xml`）。
 3. 恢复动作验证：
    ```bash
    ros2 action send_goal /spin nav2_msgs/action/Spin "{target_yaw: 1.57}"
    ```
 4. 记录路径：
-   - 阅读 [navigate_follow_record_path.cpp](file:///Users/waiyu/Downloads/src/navigation2/nav2_bt_navigator/src/navigators/navigate_follow_record_path.cpp#L48-L53)；
+   - 阅读 [navigate_follow_record_path.cpp](../src/navigation2/nav2_bt_navigator/src/navigators/navigate_follow_record_path.cpp#L48-L53)；
    - 编写 Path 发布者，向 `/record_path` 发布 3~5 个 `PoseStamped`；
    - 下发 `navigate_follow_record_path` 动作，观察循迹；
-   - 对照 [记录路径 BT](file:///Users/waiyu/Downloads/src/navigation2/nav2_bt_navigator/behavior_trees/navigate_follow_record_path_w_replanning_and_recovery.xml)：只做 `FollowPath`，无全局规划。
+   - 对照 [记录路径 BT](../src/navigation2/nav2_bt_navigator/behavior_trees/navigate_follow_record_path_w_replanning_and_recovery.xml)：只做 `FollowPath`，无全局规划。
 5. 故障注入：拔雷达、堵路径、错误目标，记录日志与恢复次数。
 
 **源代码 / 配置修改要点**
 
 - BT XML：`RecoveryNode` 重试、`RateController` 频率、恢复顺序；
-- [yhs_nav2.yaml](file:///Users/waiyu/Downloads/src/yhs_nav2/param/yhs_nav2.yaml#L55-L99)：`plugin_lib_names` 必须含 `nav2_compute_follow_record_path_action_bt_node`；
+- [yhs_nav2.yaml](../src/yhs_nav2/param/yhs_nav2.yaml#L55-L99)：`plugin_lib_names` 必须含 `nav2_compute_follow_record_path_action_bt_node`；
 - 自定义 BT 必须用绝对路径；
 - 记录路径必须连续可跟踪。
 
@@ -1250,7 +1250,7 @@ TurtleBot3 模型与示例地图、Gazebo/Ignition 仿真、`tb3_simulation_laun
 ```bash
 # 环境
 source /opt/ros/humble/setup.bash
-source ~/ros2_lite_ws/install/setup.bash
+source ~/ros2_ws/install/setup.bash
 colcon build --symlink-install --packages-select yhs_nav2
 
 # 底盘
