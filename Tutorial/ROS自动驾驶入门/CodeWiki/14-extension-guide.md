@@ -12,22 +12,22 @@
 
 ### 1.1 文件准备
 
-1. 在 [urdf/](../../src/yhs_chassis_description/urdf) 新增 `XX-mid.urdf`。
-2. 在 [meshes/](../../src/yhs_chassis_description/meshes) 放入 STL，URDF 中使用：
+1. 在 [urdf/](../../../src/yhs_chassis_description/urdf) 新增 `XX-mid.urdf`。
+2. 在 [meshes/](../../../src/yhs_chassis_description/meshes) 放入 STL，URDF 中使用：
    ```xml
    <mesh filename="package://yhs_chassis_description/meshes/XX-mid.STL"/>
    ```
-3. 在 [launch/](../../src/yhs_chassis_description/launch) 复制一个现有车型 launch，修改 `urdf_model` 默认值。
+3. 在 [launch/](../../../src/yhs_chassis_description/launch) 复制一个现有车型 launch，修改 `urdf_model` 默认值。
 
 ### 1.2 必须同步的点
 
 | 项目 | 说明 |
 | --- | --- |
 | `base_link` 原点 | 建议与现有车型一致（底盘中心、地面投影） |
-| 雷达安装高度 | 若变化，必须改 [nvilidar.launch.py](../../src/hardware/nvilidar_ros2/launch/nvilidar.launch.py) 的 `0.33` |
-| IMU 安装 | 改 [imu_spec_msg.launch.py](../../src/hardware/serial_imu/launch/imu_spec_msg.launch.py) 静态 TF 或 URDF |
-| 相机安装 | 改 [pointcloud_to_laserscan.launch.py](../../src/pointcloud_to_laserscan/launch/pointcloud_to_laserscan.launch.py) 的 `0.23 0 0.2` |
-| 代价地图 footprint | 改 [yhs_nav2.yaml](../../src/yhs_nav2/param/yhs_nav2.yaml) 的 `footprint` |
+| 雷达安装高度 | 若变化，必须改 [nvilidar.launch.py](../../../src/hardware/nvilidar_ros2/launch/nvilidar.launch.py) 的 `0.33` |
+| IMU 安装 | 改 [imu_spec_msg.launch.py](../../../src/hardware/serial_imu/launch/imu_spec_msg.launch.py) 静态 TF 或 URDF |
+| 相机安装 | 改 [pointcloud_to_laserscan.launch.py](../../../src/pointcloud_to_laserscan/launch/pointcloud_to_laserscan.launch.py) 的 `0.23 0 0.2` |
+| 代价地图 footprint | 改 [yhs_nav2.yaml](../../../src/yhs_nav2/param/yhs_nav2.yaml) 的 `footprint` |
 | TEB 车体模型 | 改 `controller_server.FollowPath.footprint_model`，保持与 footprint 一致 |
 
 CMake 目前整目录安装，无需逐文件登记：
@@ -76,7 +76,7 @@ Node(
 
 ### 2.3 接入代价地图
 
-在 [yhs_nav2.yaml](../../src/yhs_nav2/param/yhs_nav2.yaml) 的 `observation_sources` 增加：
+在 [yhs_nav2.yaml](../../../src/yhs_nav2/param/yhs_nav2.yaml) 的 `observation_sources` 增加：
 
 ```yaml
 observation_sources: scan scan1 rear_tof
@@ -129,7 +129,7 @@ Nav2 通过 pluginlib 加载：
 
 ### 3.2 切换到 RPP（示例）
 
-修改 [yhs_nav2.yaml](../../src/yhs_nav2/param/yhs_nav2.yaml)：
+修改 [yhs_nav2.yaml](../../../src/yhs_nav2/param/yhs_nav2.yaml)：
 
 ```yaml
 controller_server:
@@ -242,7 +242,7 @@ list(APPEND plugin_libs my_action_bt_node)
 
 | 文件 | 说明 |
 | --- | --- |
-| [navigate_follow_record_path_action.cpp](../../src/navigation2/nav2_behavior_tree/plugins/action/navigate_follow_record_path_action.cpp) | 注册名 `NavigateFollowRecordPath`，动作名 `navigate_follow_record_path` |
+| [navigate_follow_record_path_action.cpp](../../../src/navigation2/nav2_behavior_tree/plugins/action/navigate_follow_record_path_action.cpp) | 注册名 `NavigateFollowRecordPath`，动作名 `navigate_follow_record_path` |
 | 端口 | `goal`（`nav_msgs/Path`）、`behavior_tree`（string） |
 | 构建库名 | `nav2_compute_follow_record_path_action_bt_node`（命名与节点名不一致，注意别写错） |
 
@@ -261,7 +261,7 @@ list(APPEND plugin_libs my_action_bt_node)
    - `getName()`（同时作为动作名）
    - `getDefaultBTFilepath()`
    - `goalReceived()`、`onLoop()`、`onPreempt()`、`goalCompleted()`
-3. 在 [bt_navigator.cpp](../../src/navigation2/nav2_bt_navigator/src/bt_navigator.cpp) 中：
+3. 在 [bt_navigator.cpp](../../../src/navigation2/nav2_bt_navigator/src/bt_navigator.cpp) 中：
    ```cpp
    my_navigator_ = std::make_unique<MyNavigator>();
    my_navigator_->on_configure(shared_from_this(), plugin_lib_names,
@@ -274,7 +274,7 @@ list(APPEND plugin_libs my_action_bt_node)
 
 | 环节 | 实现 |
 | --- | --- |
-| 动作定义 | [RecordPath.action](../../src/yhs_can_interfaces/action/RecordPath.action) |
+| 动作定义 | [RecordPath.action](../../../src/yhs_can_interfaces/action/RecordPath.action) |
 | 动作服务器 | `bt_navigator` 内的 `NavigateFollowRecordPathNavigator`，动作名 `navigate_follow_record_path` |
 | 触发方式 A | 向 `/record_path` 发布 `nav_msgs/Path`，导航器自动自调用动作 |
 | 触发方式 B | 直接发送 `/navigate_follow_record_path` 动作 goal |
@@ -292,7 +292,7 @@ list(APPEND plugin_libs my_action_bt_node)
 
 ## 6. 新增地图
 
-1. 将 `xxx.pgm` 与 `xxx.yaml` 放入 [yhs_nav2/map](../../src/yhs_nav2/map)。
+1. 将 `xxx.pgm` 与 `xxx.yaml` 放入 [yhs_nav2/map](../../../src/yhs_nav2/map)。
 2. YAML 中 `image` 必须与实际文件名完全一致（当前 `zgq-g.yaml` 即因指向不存在的 `zgq.pgm` 而失败，K1）。
 3. 启动时指定：
    ```bash

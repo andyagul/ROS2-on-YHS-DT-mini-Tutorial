@@ -96,7 +96,7 @@ ros2 topic hz /imu_data
 
 **根因**：设备名不是 `/dev/imu`、波特率不是 115200、串口被占用（K11）。
 
-**处理**：当前代码硬编码，需改 [serial_port.cpp](../../src/hardware/serial_imu/src/serial_port.cpp) 的 `IMU_SERIAL` / `BAUD` 并重新编译；或建立 udev 符号链接到 `/dev/imu`。
+**处理**：当前代码硬编码，需改 [serial_port.cpp](../../../src/hardware/serial_imu/src/serial_port.cpp) 的 `IMU_SERIAL` / `BAUD` 并重新编译；或建立 udev 符号链接到 `/dev/imu`。
 
 ### B4. 静止时 yaw 缓慢漂移
 

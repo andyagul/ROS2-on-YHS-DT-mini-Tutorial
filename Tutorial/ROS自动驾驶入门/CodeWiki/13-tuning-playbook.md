@@ -32,7 +32,7 @@ TEB max_vel_x = 0.5 m/s, max_vel_theta = 0.3 rad/s
 
 | 环节 | 当前限制 | 备注 |
 | --- | --- | --- |
-| TEB 线速度 | 0.5 m/s | [yhs_nav2.yaml:148](../../src/yhs_nav2/param/yhs_nav2.yaml) |
+| TEB 线速度 | 0.5 m/s | [yhs_nav2.yaml:148](../../../src/yhs_nav2/param/yhs_nav2.yaml) |
 | TEB 角速度 | 0.3 rad/s | 同上 |
 | TEB 线/角加速度 | 0.3 / 0.3 | 起步与转向较柔和 |
 | 速度平滑器 | 默认 0.5 m/s、2.5 rad/s | YAML 无 `velocity_smoother` 段 |
@@ -44,7 +44,7 @@ TEB max_vel_x = 0.5 m/s, max_vel_theta = 0.3 rad/s
 
 ## 3. 建图调参（Cartographer）
 
-配置文件：[dgt_mini.lua](../../src/cartographer_ros/cartographer_ros/configuration_files/dgt_mini.lua)
+配置文件：[dgt_mini.lua](../../../src/cartographer_ros/cartographer_ros/configuration_files/dgt_mini.lua)
 
 ### 3.1 当前基线
 
@@ -94,7 +94,7 @@ ros2 run cartographer_ros cartographer_pbstream_to_ros_map -pbstream_filename /t
 
 ## 4. 定位调参（AMCL）
 
-配置：[yhs_nav2.yaml:1-54](../../src/yhs_nav2/param/yhs_nav2.yaml)
+配置：[yhs_nav2.yaml:1-54](../../../src/yhs_nav2/param/yhs_nav2.yaml)
 
 ### 4.1 当前基线
 

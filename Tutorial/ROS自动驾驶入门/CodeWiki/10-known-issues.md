@@ -39,7 +39,7 @@
 
 **证据**
 
-- [zgq-g.yaml](../../src/yhs_nav2/map/zgq-g.yaml)：`image: zgq.pgm`
+- [zgq-g.yaml](../../../src/yhs_nav2/map/zgq-g.yaml)：`image: zgq.pgm`
 - 目录中实际只有 `zgq-c.pgm`，**没有 `zgq.pgm`**
 - 其余 8 个 YAML 均能找到同名 PGM
 
@@ -63,7 +63,7 @@ sed -i 's/image: zgq.pgm/image: zgq-c.pgm/' zgq-g.yaml
 
 **证据**
 
-- [dgt_mini.launch.py:46-52](../../src/cartographer_ros/cartographer_ros/launch/dgt_mini.launch.py)：
+- [dgt_mini.launch.py:46-52](../../../src/cartographer_ros/cartographer_ros/launch/dgt_mini.launch.py)：
 
 ```python
 Node(
@@ -86,7 +86,7 @@ parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}, {'resolution'
 
 ### K3（P1）局部代价地图缺少膨胀层
 
-**证据**：[yhs_nav2.yaml:237-282](../../src/yhs_nav2/param/yhs_nav2.yaml)
+**证据**：[yhs_nav2.yaml:237-282](../../../src/yhs_nav2/param/yhs_nav2.yaml)
 
 ```yaml
 plugins: ["static_layer", "obstacle_layer"]
@@ -111,11 +111,11 @@ plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
 
 ### K4（P1）Nav2 参数使用旧版 API
 
-**证据**（[yhs_nav2.yaml](../../src/yhs_nav2/param/yhs_nav2.yaml)）
+**证据**（[yhs_nav2.yaml](../../../src/yhs_nav2/param/yhs_nav2.yaml)）
 
 | 位置 | 旧配置 | Nav2 1.1.5 实际 |
 | --- | --- | --- |
-| `:61` | `default_bt_xml_filename` | `default_nav_to_pose_bt_xml`（[navigate_to_pose.cpp:71-79](../../src/navigation2/nav2_bt_navigator/src/navigators/navigate_to_pose.cpp)）；且旧值 `navigate_w_replanning_and_recovery.xml` 在本仓库不存在 |
+| `:61` | `default_bt_xml_filename` | `default_nav_to_pose_bt_xml`（[navigate_to_pose.cpp:71-79](../../../src/navigation2/nav2_bt_navigator/src/navigators/navigate_to_pose.cpp)）；且旧值 `navigate_w_replanning_and_recovery.xml` 在本仓库不存在 |
 | `:401` | `recoveries_server:` | `behavior_server:` |
 | `:406` | `recovery_plugins` | `behavior_plugins` |
 | `:408-415` | `nav2_recoveries/Spin` 等 | `nav2_behaviors/Spin` 等 |
@@ -156,8 +156,8 @@ behavior_server:
 
 **证据**
 
-- [localization_launch.py:66-69](../../src/yhs_nav2/launch/localization_launch.py)：默认 `bringup_dir/params/nav2_params.yaml`
-- [navigation_launch.py:62-65](../../src/yhs_nav2/launch/navigation_launch.py)：同上
+- [localization_launch.py:66-69](../../../src/yhs_nav2/launch/localization_launch.py)：默认 `bringup_dir/params/nav2_params.yaml`
+- [navigation_launch.py:62-65](../../../src/yhs_nav2/launch/navigation_launch.py)：同上
 - `yhs_nav2` 实际目录是 `param/`（单数），且只有 `yhs_nav2.yaml`
 
 **影响**：直接 `ros2 launch yhs_nav2 localization_launch.py` 会因 `RewrittenYaml` 打开失败而报错。通过顶层 `yhs_nav2.launch.py` 启动时传入了正确路径，因此**导航主流程不受影响**。
@@ -170,8 +170,8 @@ behavior_server:
 
 **证据**
 
-- [yhs_nav2.launch.py:133-146](../../src/yhs_nav2/launch/yhs_nav2.launch.py)：相机与点云转激光均被注释
-- [yhs_nav2.yaml:259-271](../../src/yhs_nav2/param/yhs_nav2.yaml)：`observation_sources: scan scan1`
+- [yhs_nav2.launch.py:133-146](../../../src/yhs_nav2/launch/yhs_nav2.launch.py)：相机与点云转激光均被注释
+- [yhs_nav2.yaml:259-271](../../../src/yhs_nav2/param/yhs_nav2.yaml)：`observation_sources: scan scan1`
 - 全局 costmap 同样包含 `scan1`
 
 **影响**：costmap 持续输出"observation buffer empty"类告警；局部/全局清障只依赖 `/scan`，矮障碍补盲缺失。
@@ -187,7 +187,7 @@ behavior_server:
 
 **证据**
 
-- [yhs_nav2.yaml:153-155](../../src/yhs_nav2/param/yhs_nav2.yaml)：TEB `footprint_model.type: circular`，`radius: 0.1`
+- [yhs_nav2.yaml:153-155](../../../src/yhs_nav2/param/yhs_nav2.yaml)：TEB `footprint_model.type: circular`，`radius: 0.1`
 - 同文件 `local_costmap.footprint` / `global_costmap.footprint`：`[[0.30,0.26],...]`（0.6 × 0.52 m 矩形）
 
 **影响**：TEB 以为车是半径 0.1 m 的圆，实际车体 0.6 m 长；在窄通道会给出"能过"的错误判断。
@@ -207,7 +207,7 @@ FollowPath:
 
 **证据**
 
-- [yhs_nav2.launch.py:109-117](../../src/yhs_nav2/launch/yhs_nav2.launch.py)：`use_composition=True` 时启动 `nav2_container`
+- [yhs_nav2.launch.py:109-117](../../../src/yhs_nav2/launch/yhs_nav2.launch.py)：`use_composition=True` 时启动 `nav2_container`
 - 子 launch 中所有服务器均为独立 `Node(...)`，没有 `LoadComposableNodes`
 
 **影响**：多起一个 60 MB 左右的空容器；`use_composition` 参数不改变实际部署。不崩溃，但会误导性能优化。
@@ -220,9 +220,9 @@ FollowPath:
 
 **证据**
 
-- [FR-mid.launch.py:21](../../src/yhs_chassis_description/launch/FR-mid.launch.py)：默认 `urdf/DT-mini.urdf`
+- [FR-mid.launch.py:21](../../../src/yhs_chassis_description/launch/FR-mid.launch.py)：默认 `urdf/DT-mini.urdf`
 - `FR_mid.urdf` 存在但无任何 launch 引用
-- [select_car.sh:36-41](../../src/tools/select_car.sh)：D（FR-mini）复制的是 `DT-mini.launch.py`
+- [select_car.sh:36-41](../../../src/tools/select_car.sh)：D（FR-mini）复制的是 `DT-mini.launch.py`
 
 **影响**：选择 FR-mid 实际显示 DT-mini；选择 FR-mini 实际也是 DT-mini。外观/尺寸误判会连带影响 footprint 标定。
 
@@ -232,7 +232,7 @@ FollowPath:
 
 ### K10（P1）编排包没有运行依赖
 
-**证据**：[package.xml](../../src/yhs_nav2/package.xml) 只有 `ament_cmake` 与测试依赖，没有 `<exec_depend>`。
+**证据**：[package.xml](../../../src/yhs_nav2/package.xml) 只有 `ament_cmake` 与测试依赖，没有 `<exec_depend>`。
 
 **影响**
 
@@ -256,7 +256,7 @@ FollowPath:
 
 ### K11（P2）IMU 设备与波特率硬编码
 
-**证据**：[serial_port.cpp:17-18](../../src/hardware/serial_imu/src/serial_port.cpp)
+**证据**：[serial_port.cpp:17-18](../../../src/hardware/serial_imu/src/serial_port.cpp)
 
 ```c
 #define IMU_SERIAL ("/dev/imu")
@@ -271,7 +271,7 @@ FollowPath:
 
 ### K12（P2）里程计与 IMU 判断的隐患
 
-**证据**：[yhs_can_control_node.cpp:412](../../src/yhs_can_control/src/yhs_can_control_node.cpp)
+**证据**：[yhs_can_control_node.cpp:412](../../../src/yhs_can_control/src/yhs_can_control_node.cpp)
 
 ```cpp
 auto publisher_count = node_->count_publishers("/imu_data");
@@ -295,7 +295,7 @@ auto publisher_count = node_->count_publishers("/imu_data");
 
 ### K13（P2）挡位写死与相对话题名
 
-**证据**：[yhs_can_control_node.cpp:153-161](../../src/yhs_can_control/src/yhs_can_control_node.cpp)
+**证据**：[yhs_can_control_node.cpp:153-161](../../../src/yhs_can_control/src/yhs_can_control_node.cpp)
 
 ```cpp
 ctrl_cmd_msg->ctrl_cmd_angular = cmd_msg->angular.z / 3.14 * 180;
@@ -314,9 +314,9 @@ ctrl_cmd_msg->ctrl_cmd_gear = 3;
 
 **证据**
 
-- [DT-mini.urdf](../../src/yhs_chassis_description/urdf/DT-mini.urdf)：仅 1 个 `<link>`，无 `<joint>`
-- [robot.launch.py:29-32](../../src/yhs_chassis_description/launch/robot.launch.py)：声明 `use_robot_state_pub` 但未用于条件
-- [robot.launch.py:52-56](../../src/yhs_chassis_description/launch/robot.launch.py)：无条件启动 `joint_state_publisher`
+- [DT-mini.urdf](../../../src/yhs_chassis_description/urdf/DT-mini.urdf)：仅 1 个 `<link>`，无 `<joint>`
+- [robot.launch.py:29-32](../../../src/yhs_chassis_description/launch/robot.launch.py)：声明 `use_robot_state_pub` 但未用于条件
+- [robot.launch.py:52-56](../../../src/yhs_chassis_description/launch/robot.launch.py)：无条件启动 `joint_state_publisher`
 
 **影响**：没有关节可发布，`robot_state_publisher` 只发布静态 `base_link`；`use_robot_state_pub:=False` 无效。
 
@@ -326,7 +326,7 @@ ctrl_cmd_msg->ctrl_cmd_gear = 3;
 
 ### K15（P2）`block_spawner.py` 依赖 Gazebo
 
-**证据**：[block_spawner.py:17-22](../../src/yhs_nav2/scripts/block_spawner.py)
+**证据**：[block_spawner.py:17-22](../../../src/yhs_nav2/scripts/block_spawner.py)
 
 ```python
 from gazebo_msgs.srv import SpawnEntity
@@ -341,7 +341,7 @@ model_dir = os.path.join(get_package_share_directory("tb3_worlds"), "models")
 
 ### K16（P2）`set_init_amcl_pose.py` 发送后不退出
 
-**证据**：[set_init_amcl_pose.py:56-65](../../src/yhs_nav2/scripts/set_init_amcl_pose.py)
+**证据**：[set_init_amcl_pose.py:56-65](../../../src/yhs_nav2/scripts/set_init_amcl_pose.py)
 
 发送一次 `/initialpose` 后 `rclpy.spin(pub)` 常驻。
 
@@ -353,7 +353,7 @@ model_dir = os.path.join(get_package_share_directory("tb3_worlds"), "models")
 
 ### K17（P2）车型切换脚本硬编码路径
 
-**证据**：[select_car.sh:22](../../src/tools/select_car.sh) 等 7 处 `/home/yhs/ros2_ws/...`。
+**证据**：[select_car.sh:22](../../../src/tools/select_car.sh) 等 7 处 `/home/yhs/ros2_ws/...`。
 
 **影响**：换用户名/工作空间即失败；脚本还会覆盖 `robot.launch.py`。
 
@@ -365,7 +365,7 @@ model_dir = os.path.join(get_package_share_directory("tb3_worlds"), "models")
 
 **证据**
 
-- [pointcloud_to_laserscan.launch.py](../../src/pointcloud_to_laserscan/launch/pointcloud_to_laserscan.launch.py) 发布静态 `base_link→camera_link`
+- [pointcloud_to_laserscan.launch.py](../../../src/pointcloud_to_laserscan/launch/pointcloud_to_laserscan.launch.py) 发布静态 `base_link→camera_link`
 - `orbbec_camera` 节点通常也会根据 URDF/参数发布 `camera_link` 及子坐标系
 
 **影响**：两处同时发布 `base_link→camera_link`，`tf2` 报 "TF_REPEATED_DATA" 或 "multiple authority" 警告，极端情况下 TF 抖动。
@@ -376,7 +376,7 @@ model_dir = os.path.join(get_package_share_directory("tb3_worlds"), "models")
 
 ### K19（P2）Cartographer 高频参数
 
-**证据**：[dgt_mini.lua:34-35, 64](../../src/cartographer_ros/cartographer_ros/configuration_files/dgt_mini.lua)
+**证据**：[dgt_mini.lua:34-35, 64](../../../src/cartographer_ros/cartographer_ros/configuration_files/dgt_mini.lua)
 
 ```lua
 submap_publish_period_sec = 5e-3,   -- 200 Hz

@@ -13,7 +13,7 @@
 | 输入 | 激光 + 里程计（+ 可选 IMU） | 激光 + `odom→base_link` TF |
 | TF 输出 | `map→odom` 与 `odom→base_link`（可配） | `map→odom` |
 | 大场景回环 | 强 | 弱 |
-| 本项目入口 | [cartographer.launch.py](../../src/yhs_nav2/launch/cartographer.launch.py) | [gmapping.launch.py](../../src/yhs_nav2/launch/gmapping.launch.py) |
+| 本项目入口 | [cartographer.launch.py](../../../src/yhs_nav2/launch/cartographer.launch.py) | [gmapping.launch.py](../../../src/yhs_nav2/launch/gmapping.launch.py) |
 
 ---
 
@@ -36,7 +36,7 @@
 
 ### 2.2 关键类与函数
 
-#### `mapping::MapBuilder`（[map_builder.h](../../src/cartographer/cartographer/mapping/map_builder.h)）
+#### `mapping::MapBuilder`（[map_builder.h](../../../src/cartographer/cartographer/mapping/map_builder.h)）
 
 门面类，持有 `PoseGraph` 与全部 `TrajectoryBuilder`。
 
@@ -99,8 +99,8 @@ OdometryData ────────┴─► LocalTrajectoryBuilder2D::AddRang
 
 | 类/文件 | 职责 |
 | --- | --- |
-| `Node`（[node.cpp](../../src/cartographer_ros/cartographer_ros/src/node.cpp)） | 订阅 `scan/imu/odom/landmark`，调用 `MapBuilderBridge`，发布 TF 与可视化 |
-| `MapBuilderBridge`（[map_builder_bridge.h](../../src/cartographer_ros/cartographer_ros/include/cartographer_ros/map_builder_bridge.h)） | 封装 `MapBuilder`：`AddTrajectory`、`FinishTrajectory`、`SubmapToProto`、`HandleWriteState` |
+| `Node`（[node.cpp](../../../src/cartographer_ros/cartographer_ros/src/node.cpp)） | 订阅 `scan/imu/odom/landmark`，调用 `MapBuilderBridge`，发布 TF 与可视化 |
+| `MapBuilderBridge`（[map_builder_bridge.h](../../../src/cartographer_ros/cartographer_ros/include/cartographer_ros/map_builder_bridge.h)） | 封装 `MapBuilder`：`AddTrajectory`、`FinishTrajectory`、`SubmapToProto`、`HandleWriteState` |
 | `SensorBridge` | `LaserScan/PointCloud2/Imu/Odometry` → Cartographer 数据类型 |
 | `TFBridge` | 提供 `lookupTransform` 与坐标变换 |
 | `OccupancyGridNode` | 定时把子图/轨迹栅格转成 `nav_msgs/OccupancyGrid` 发布 `/map` |
@@ -139,7 +139,7 @@ OdometryData ────────┴─► LocalTrajectoryBuilder2D::AddRang
 
 ## 4. 本项目建图配置 `dgt_mini.lua`
 
-文件：[dgt_mini.lua](../../src/cartographer_ros/cartographer_ros/configuration_files/dgt_mini.lua)
+文件：[dgt_mini.lua](../../../src/cartographer_ros/cartographer_ros/configuration_files/dgt_mini.lua)
 
 | 配置项 | 值 | 影响 |
 | --- | --- | --- |
@@ -164,7 +164,7 @@ OdometryData ────────┴─► LocalTrajectoryBuilder2D::AddRang
 | `motion_filter.max_distance_meters` | 0.2 m | 位移阈值 |
 | `odometry_translation/rotation_weight` | `1e2 / 1e2` | 强里程计约束 |
 
-### 4.1 启动文件 [dgt_mini.launch.py](../../src/cartographer_ros/cartographer_ros/launch/dgt_mini.launch.py)
+### 4.1 启动文件 [dgt_mini.launch.py](../../../src/cartographer_ros/cartographer_ros/launch/dgt_mini.launch.py)
 
 | 节点 | 参数 | remap |
 | --- | --- | --- |
@@ -179,7 +179,7 @@ OdometryData ────────┴─► LocalTrajectoryBuilder2D::AddRang
 map ──(cartographer)──► odom ──(cartographer, provide_odom_frame)──► base_link
 ```
 
-因此 [yhs_nav2/cartographer.launch.py](../../src/yhs_nav2/launch/cartographer.launch.py) 默认 `use_tf:=false`，底盘节点不发布 `odom→base_link`。
+因此 [yhs_nav2/cartographer.launch.py](../../../src/yhs_nav2/launch/cartographer.launch.py) 默认 `use_tf:=false`，底盘节点不发布 `odom→base_link`。
 
 ---
 
@@ -224,7 +224,7 @@ slam_gmapping/
 └── slam_gmapping/        # ROS 2 封装：slam_gmapping.cpp + launch
 ```
 
-核心类（封装层 `SlamGmapping`，源文件 [slam_gmapping.cpp](../../src/slam_gmapping/slam_gmapping/src/slam_gmapping.cpp)）：
+核心类（封装层 `SlamGmapping`，源文件 [slam_gmapping.cpp](../../../src/slam_gmapping/slam_gmapping/src/slam_gmapping.cpp)）：
 
 - 继承 `rclcpp::Node`，内部持有 `GMapping::GridSlamProcessor`
 - `init()`：读取参数（`base_frame`、`odom_frame`、`map_frame`、`delta`、`particles`、`xmin/xmax/ymin/ymax` 等）、初始化激光缓存与地图

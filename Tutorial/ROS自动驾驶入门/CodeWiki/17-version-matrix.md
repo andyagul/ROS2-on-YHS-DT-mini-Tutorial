@@ -58,7 +58,7 @@
 
 `nav2_amcl`、`nav2_behavior_tree`、`nav2_behaviors`、`nav2_bringup`、`nav2_bt_navigator`、`nav2_collision_monitor`、`nav2_common`、`nav2_constrained_smoother`、`nav2_controller`、`nav2_core`、`nav2_costmap_2d`、`nav2_lifecycle_manager`、`nav2_map_server`、`nav2_msgs`、`nav2_navfn_planner`、`nav2_planner`、`nav2_regulated_pure_pursuit_controller`、`nav2_rotation_shim_controller`、`nav2_rviz_plugins`、`nav2_simple_commander`、`nav2_smac_planner`、`nav2_smoother`、`nav2_system_tests`、`nav2_theta_star_planner`、`nav2_util`、`nav2_velocity_smoother`、`nav2_voxel_grid`、`nav2_waypoint_follower`、`navigation2`，以及 DWB 子包 `nav2_dwb_controller`、`dwb_core`、`dwb_critics`、`dwb_msgs`、`dwb_plugins`、`costmap_queue`、`nav_2d_msgs`、`nav_2d_utils`。
 
-> `nav2_simple_commander` 的 [setup.py](../../src/navigation2/nav2_simple_commander/setup.py) 仍写 `version='1.0.0'`，与 `package.xml` 的 1.1.5 不一致——只影响 `pip` 元数据，不影响运行。
+> `nav2_simple_commander` 的 [setup.py](../../../src/navigation2/nav2_simple_commander/setup.py) 仍写 `version='1.0.0'`，与 `package.xml` 的 1.1.5 不一致——只影响 `pip` 元数据，不影响运行。
 
 ---
 
@@ -68,11 +68,11 @@ Cartographer 的 `scripts/install_*.sh` 固定了以下版本（**可选一键�
 
 | 依赖 | 版本/提交 | 脚本 |
 | --- | --- | --- |
-| Ceres Solver | `1.13.0` | [install_ceres.sh](../../src/cartographer/scripts/install_ceres.sh) |
-| Protobuf | `v3.4.1` | [install_proto3.sh](../../src/cartographer/scripts/install_proto3.sh) |
-| Abseil | `d902eb869bcfacc1bad14933ed9af4bed006d481` | [install_abseil.sh](../../src/cartographer/scripts/install_abseil.sh) |
-| async_grpc | `771af45374af7f7bfc3b622ed7efbe29a4aba403` | [install_async_grpc.sh](../../src/cartographer/scripts/install_async_grpc.sh) |
-| Eigen | 系统 `libeigen3-dev`（jammy 为 3.4.0） | [install_debs_cmake.sh](../../src/cartographer/scripts/install_debs_cmake.sh) |
+| Ceres Solver | `1.13.0` | [install_ceres.sh](../../../src/cartographer/scripts/install_ceres.sh) |
+| Protobuf | `v3.4.1` | [install_proto3.sh](../../../src/cartographer/scripts/install_proto3.sh) |
+| Abseil | `d902eb869bcfacc1bad14933ed9af4bed006d481` | [install_abseil.sh](../../../src/cartographer/scripts/install_abseil.sh) |
+| async_grpc | `771af45374af7f7bfc3b622ed7efbe29a4aba403` | [install_async_grpc.sh](../../../src/cartographer/scripts/install_async_grpc.sh) |
+| Eigen | 系统 `libeigen3-dev`（jammy 为 3.4.0） | [install_debs_cmake.sh](../../../src/cartographer/scripts/install_debs_cmake.sh) |
 | Lua | 系统 `liblua5.2-dev`（脚本） | 同上 |
 | g2o | 系统 `libg2o-dev`（TEB 依赖） | TEB `package.xml` |
 | BehaviorTree.CPP | 仓库内置 3.8.5 | `dependence/BehaviorTree.CPP` |

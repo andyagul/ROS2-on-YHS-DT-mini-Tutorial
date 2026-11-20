@@ -17,9 +17,9 @@
 
 **证据**
 
-- [navigation2/package.xml](../../src/navigation2/navigation2/package.xml) 版本 1.1.5
+- [navigation2/package.xml](../../../src/navigation2/navigation2/package.xml) 版本 1.1.5
 - 所有 launch 使用 `launch_ros`、`LifecycleNode`、`rclcpp_action`
-- [yhs_nav2/package.xml](../../src/yhs_nav2/package.xml) 为 `format="3"`
+- [yhs_nav2/package.xml](../../../src/yhs_nav2/package.xml) 为 `format="3"`
 
 **后果**
 
@@ -41,9 +41,9 @@
 
 **证据**
 
-- [cartographer.launch.py](../../src/yhs_nav2/launch/cartographer.launch.py) 拉起 IMU、雷达、底盘与 Cartographer
-- [gmapping.launch.py](../../src/yhs_nav2/launch/gmapping.launch.py) 结构相同，替换为 `slam_gmapping`
-- [dgt_mini.lua](../../src/cartographer_ros/cartographer_ros/configuration_files/dgt_mini.lua) 为项目专用配置（`use_imu_data=false`）
+- [cartographer.launch.py](../../../src/yhs_nav2/launch/cartographer.launch.py) 拉起 IMU、雷达、底盘与 Cartographer
+- [gmapping.launch.py](../../../src/yhs_nav2/launch/gmapping.launch.py) 结构相同，替换为 `slam_gmapping`
+- [dgt_mini.lua](../../../src/cartographer_ros/cartographer_ros/configuration_files/dgt_mini.lua) 为项目专用配置（`use_imu_data=false`）
 
 **后果**
 
@@ -65,8 +65,8 @@
 
 **证据**
 
-- [yhs_can_control_node.cpp](../../src/yhs_can_control/src/yhs_can_control_node.cpp)：`socket(PF_CAN, SOCK_RAW, CAN_RAW)`、`write`、`read`
-- [yhs_can_control.hpp](../../src/yhs_can_control/include/yhs_can_control/yhs_can_control_node.hpp)：`CanControl` 直接持有 CAN 句柄
+- [yhs_can_control_node.cpp](../../../src/yhs_can_control/src/yhs_can_control_node.cpp)：`socket(PF_CAN, SOCK_RAW, CAN_RAW)`、`write`、`read`
+- [yhs_can_control.hpp](../../../src/yhs_can_control/include/yhs_can_control/yhs_can_control_node.hpp)：`CanControl` 直接持有 CAN 句柄
 - 依赖列表中没有 `hardware_interface` / `controller_manager`
 
 **后果**
@@ -89,7 +89,7 @@
 
 **证据**
 
-- [yhs_can_control_node.cpp](../../src/yhs_can_control/src/yhs_can_control_node.cpp) 的 `publish_odom()`
+- [yhs_can_control_node.cpp](../../../src/yhs_can_control/src/yhs_can_control_node.cpp) 的 `publish_odom()`
 - 订阅 `/imu_data` 仅使用 `orientation` 的 yaw
 - `use_tf` 参数控制是否广播 `odom→base_link`
 
@@ -113,8 +113,8 @@
 
 **证据**
 
-- [yhs_nav2.yaml](../../src/yhs_nav2/param/yhs_nav2.yaml)：`controller_plugins: ["FollowPath"]`，`plugin: "teb_local_planner/TebLocalPlannerROS"`
-- [teb_local_planner_plugin.xml](../../src/teb_local_planner/teb_local_planner/teb_local_planner_plugin.xml)
+- [yhs_nav2.yaml](../../../src/yhs_nav2/param/yhs_nav2.yaml)：`controller_plugins: ["FollowPath"]`，`plugin: "teb_local_planner/TebLocalPlannerROS"`
+- [teb_local_planner_plugin.xml](../../../src/teb_local_planner/teb_local_planner/teb_local_planner_plugin.xml)
 
 **后果**
 
@@ -134,7 +134,7 @@
 
 **决策**：`planner_plugins: ["GridBased"]` → `nav2_navfn_planner/NavfnPlanner`，`use_astar: true`（A*），`allow_unknown: false`。
 
-**证据**：[yhs_nav2.yaml](../../src/yhs_nav2/param/yhs_nav2.yaml) 的 `planner_server` 段。
+**证据**：[yhs_nav2.yaml](../../../src/yhs_nav2/param/yhs_nav2.yaml) 的 `planner_server` 段。
 
 **后果**
 
@@ -156,9 +156,9 @@
 
 **证据**
 
-- [yhs_can_interfaces/action/RecordPath.action](../../src/yhs_can_interfaces/action/RecordPath.action)
-- [navigate_follow_record_path.cpp](../../src/navigation2/nav2_bt_navigator/src/navigators/navigate_follow_record_path.cpp)
-- [navigate_follow_record_path_action.cpp](../../src/navigation2/nav2_behavior_tree/plugins/action/navigate_follow_record_path_action.cpp)
+- [yhs_can_interfaces/action/RecordPath.action](../../../src/yhs_can_interfaces/action/RecordPath.action)
+- [navigate_follow_record_path.cpp](../../../src/navigation2/nav2_bt_navigator/src/navigators/navigate_follow_record_path.cpp)
+- [navigate_follow_record_path_action.cpp](../../../src/navigation2/nav2_behavior_tree/plugins/action/navigate_follow_record_path_action.cpp)
 - 默认 BT 仍为 `navigate_to_pose_w_replanning_and_recovery.xml`，**未包含**自定义节点
 
 **后果**
@@ -180,8 +180,8 @@
 
 **证据**
 
-- [yhs_nav2.launch.py](../../src/yhs_nav2/launch/yhs_nav2.launch.py) 的 `default_value=os.path.join(bringup_dir, 'map', 'ecarroom.yaml')`
-- [CMakeLists.txt](../../src/yhs_nav2/CMakeLists.txt) 安装 `map`、`param`、`launch`
+- [yhs_nav2.launch.py](../../../src/yhs_nav2/launch/yhs_nav2.launch.py) 的 `default_value=os.path.join(bringup_dir, 'map', 'ecarroom.yaml')`
+- [CMakeLists.txt](../../../src/yhs_nav2/CMakeLists.txt) 安装 `map`、`param`、`launch`
 
 **后果**
 
@@ -203,8 +203,8 @@
 
 **证据**
 
-- [yhs_nav2.launch.py:109-117](../../src/yhs_nav2/launch/yhs_nav2.launch.py)：`component_container_isolated`
-- [localization_launch.py](../../src/yhs_nav2/launch/localization_launch.py) / [navigation_launch.py](../../src/yhs_nav2/launch/navigation_launch.py)：未使用 `ComposableNodeContainer`
+- [yhs_nav2.launch.py:109-117](../../../src/yhs_nav2/launch/yhs_nav2.launch.py)：`component_container_isolated`
+- [localization_launch.py](../../../src/yhs_nav2/launch/localization_launch.py) / [navigation_launch.py](../../../src/yhs_nav2/launch/navigation_launch.py)：未使用 `ComposableNodeContainer`
 
 **后果**
 
@@ -226,7 +226,7 @@
 **证据**
 
 - `src/cartographer`、`src/cartographer_ros`、`src/teb_local_planner`、`src/slam_gmapping`、`src/dependence`
-- [COLCON_BUILD.md](../../src/COLCON_BUILD.md) 的构建说明
+- [COLCON_BUILD.md](../../../src/COLCON_BUILD.md) 的构建说明
 
 **后果**
 
@@ -248,7 +248,7 @@
 
 **证据**
 
-- [yhs_nav2.launch.py:105-107](../../src/yhs_nav2/launch/yhs_nav2.launch.py)：`PushRosNamespace`
+- [yhs_nav2.launch.py:105-107](../../../src/yhs_nav2/launch/yhs_nav2.launch.py)：`PushRosNamespace`
 - 参数中 `robot_base_frame: base_link`、`global_frame: map` 为固定值
 - URDF/TF 发布无前缀
 

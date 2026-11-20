@@ -2,7 +2,7 @@
 
 > 面向技师学院智能网联汽车技术应用专业（中级工 / 高级工）的专业核心课配套资源。
 > 教学载体：深圳煜禾森 OS-lite ROS2 单线激光 SLAM 导航套件（DT-mini 等车型）。
-> 配套资源：[课程标准](ROS2自动驾驶入门课程标准.md) ｜ [系统架构分析](ROS2小车系统架构分析.md) ｜ [仓库总览](../../README.md)
+> 配套资源：[课程标准](ROS2自动驾驶入门课程标准.md) ｜ [系统架构分析](ROS2小车系统架构分析.md) ｜ [Code Wiki 源码百科](CodeWiki/README.md) ｜ [仓库总览](../../README.md)
 
 ---
 
@@ -49,12 +49,23 @@
 
 各模块的理论学时、实操学时与验收指标以[课程标准](ROS2自动驾驶入门课程标准.md)为准。
 
+**模块与 Code Wiki 章节对照**
+
+| 模块 | 建议配套阅读 |
+| --- | --- |
+| M0–M1 整车认知与部署 | [01 整体架构](CodeWiki/01-architecture.md)、[08 机器人模型](CodeWiki/08-robot-model.md)、[09 编译运行](CodeWiki/09-build-run-debug.md)、[16 部署运维](CodeWiki/16-deployment-operations.md) |
+| M2–M4 感知与标定 | [03 底盘 CAN](CodeWiki/03-can-chassis.md)、[04 传感器](CodeWiki/04-sensors-hardware.md)、[11 接口字典](CodeWiki/11-interface-reference.md) |
+| M5–M7 坐标变换与建图 | [05 SLAM](CodeWiki/05-slam.md)、[08 机器人模型](CodeWiki/08-robot-model.md)、[13 调参手册](CodeWiki/13-tuning-playbook.md) |
+| M8–M11 导航与调参 | [06 Nav2](CodeWiki/06-navigation2.md)、[07 局部规划](CodeWiki/07-local-planning.md)、[12 代码地图](CodeWiki/12-code-map.md)、[13 调参手册](CodeWiki/13-tuning-playbook.md) |
+| M12 综合与排故 | [10 已知问题](CodeWiki/10-known-issues.md)、[18 故障诊断](CodeWiki/18-faq.md)、[20 术语表](CodeWiki/20-glossary.md) |
+
 ## 四、资料导航
 
 | 资料 | 用途 | 建议使用方式 |
 | --- | --- | --- |
 | [ROS2自动驾驶入门课程标准.md](ROS2自动驾驶入门课程标准.md) | 课程定位、目标、教学条件、M0–M12 教学标准、学时分配、考核评价 | 教师备课与教学管理的第一依据 |
 | [ROS2小车系统架构分析.md](ROS2小车系统架构分析.md) | 逐包、逐话题、逐 launch 的源码剖析，含已知缺陷与学习顺序 | 教师讲解、学生对照源码自学 |
+| [Code Wiki 源码百科](CodeWiki/README.md) | 20 章结构化文档：架构、模块、类/函数、接口、依赖、编译运行、调参、扩展、测试、运维、排障、ADR、术语 | 教师备课、学生查源码、开发者交接 |
 | [仓库根 README](../../README.md) | 两门课程总览、环境准备、常用命令与参数速查 | 首次接触仓库时先读 |
 | [课程二：二次开发](../ROS自动驾驶二次开发/README.md) | 33 项进阶项目与实验手册 | 完成 M10 后按需选修 |
 

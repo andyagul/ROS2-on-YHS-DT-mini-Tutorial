@@ -35,7 +35,7 @@ yhs_chassis_description/
 
 ## 2. URDF 结构
 
-以 [DT-mini.urdf](../../src/yhs_chassis_description/urdf/DT-mini.urdf) 为例（全文仅 18 行）：
+以 [DT-mini.urdf](../../../src/yhs_chassis_description/urdf/DT-mini.urdf) 为例（全文仅 18 行）：
 
 ```xml
 <robot name="yhs_chassis_description">
@@ -64,7 +64,7 @@ yhs_chassis_description/
 
 ## 3. 启动文件
 
-所有车型 launch 结构完全相同（见 [DT-mini.launch.py](../../src/yhs_chassis_description/launch/DT-mini.launch.py)）：
+所有车型 launch 结构完全相同（见 [DT-mini.launch.py](../../../src/yhs_chassis_description/launch/DT-mini.launch.py)）：
 
 | 节点 | 作用 | 参数 |
 | --- | --- | --- |

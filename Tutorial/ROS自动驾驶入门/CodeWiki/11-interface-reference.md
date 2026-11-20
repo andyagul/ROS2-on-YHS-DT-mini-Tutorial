@@ -91,7 +91,7 @@
 | `/lifecycle_manager_*/get_state` | `lifecycle_msgs/srv/GetState` | 查询状态 |
 | `/lifecycle_manager_*/get_available_transitions` | `lifecycle_msgs/srv/GetAvailableTransitions` | 查询可用切换 |
 
-> 代价地图服务名由 `"clear_entirely_" + costmap.getName()` 拼接，节点命名空间为 `global_costmap` / `local_costmap`，因此出现"双名"属正常现象（[clear_costmap_service.cpp:51-58](../../src/navigation2/nav2_costmap_2d/src/clear_costmap_service.cpp)）。
+> 代价地图服务名由 `"clear_entirely_" + costmap.getName()` 拼接，节点命名空间为 `global_costmap` / `local_costmap`，因此出现"双名"属正常现象（[clear_costmap_service.cpp:51-58](../../../src/navigation2/nav2_costmap_2d/src/clear_costmap_service.cpp)）。
 
 ---
 

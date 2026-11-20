@@ -76,7 +76,7 @@ computeVelocityCommands(pose, velocity)
   └─ 9. 失败则触发恢复（shrink horizon / oscillation）
 ```
 
-### 1.5 本仓库参数（[yhs_nav2.yaml:129-232](../../src/yhs_nav2/param/yhs_nav2.yaml)）
+### 1.5 本仓库参数（[yhs_nav2.yaml:129-232](../../../src/yhs_nav2/param/yhs_nav2.yaml)）
 
 | 类别 | 参数 | 值 | 说明 |
 | --- | --- | --- | --- |

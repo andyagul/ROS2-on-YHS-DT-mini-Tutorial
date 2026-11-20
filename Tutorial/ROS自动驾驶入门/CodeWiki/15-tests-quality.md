@@ -32,21 +32,21 @@
 
 | 层级 | 位置 | 内容 |
 | --- | --- | --- |
-| 单元测试 | [cartographer/**/*_test.cc](../../src/cartographer) | 数学、变换、传感器、2D/3D 子图、扫描匹配、位姿图、IO |
-| 集成测试 | [cartographer_ros](../../src/cartographer_ros) | `configuration_files_test`、`msg_conversion_test`、`time_conversion_test` |
-| 性能/内存 | [scripts/build_test_asan.sh](../../src/cartographer/scripts/build_test_asan.sh) | ASan + LeakSanitizer + `ctest -j20` |
+| 单元测试 | [cartographer/**/*_test.cc](../../../src/cartographer) | 数学、变换、传感器、2D/3D 子图、扫描匹配、位姿图、IO |
+| 集成测试 | [cartographer_ros](../../../src/cartographer_ros) | `configuration_files_test`、`msg_conversion_test`、`time_conversion_test` |
+| 性能/内存 | [scripts/build_test_asan.sh](../../../src/cartographer/scripts/build_test_asan.sh) | ASan + LeakSanitizer + `ctest -j20` |
 
 ### 2.2 典型测试文件
 
 | 文件 | 验证点 |
 | --- | --- |
-| [math_test.cc](../../src/cartographer/cartographer/common/math_test.cc) | 角度归一化、插值 |
-| [rigid_transform_test.cc](../../src/cartographer/cartographer/transform/rigid_transform_test.cc) | 刚体变换 |
-| [probability_values_test.cc](../../src/cartographer/cartographer/mapping/probability_values_test.cc) | 概率/对数几率 |
-| [submaps_test.cc](../../src/cartographer/cartographer/mapping/submaps_test.cc) | 子图索引与分辨率 |
-| [fast_correlative_scan_matcher_2d_test.cc](../../src/cartographer/cartographer/mapping/internal/2d/scan_matching/fast_correlative_scan_matcher_2d_test.cc) | 前端相关匹配 |
-| [pose_graph_2d_test.cc](../../src/cartographer/cartographer/mapping/internal/2d/pose_graph_2d_test.cc) | 2D 后端优化 |
-| [proto_stream_test.cc](../../src/cartographer/cartographer/io/proto_stream_test.cc) | pbstream 读写 |
+| [math_test.cc](../../../src/cartographer/cartographer/common/math_test.cc) | 角度归一化、插值 |
+| [rigid_transform_test.cc](../../../src/cartographer/cartographer/transform/rigid_transform_test.cc) | 刚体变换 |
+| [probability_values_test.cc](../../../src/cartographer/cartographer/mapping/probability_values_test.cc) | 概率/对数几率 |
+| [submaps_test.cc](../../../src/cartographer/cartographer/mapping/submaps_test.cc) | 子图索引与分辨率 |
+| [fast_correlative_scan_matcher_2d_test.cc](../../../src/cartographer/cartographer/mapping/internal/2d/scan_matching/fast_correlative_scan_matcher_2d_test.cc) | 前端相关匹配 |
+| [pose_graph_2d_test.cc](../../../src/cartographer/cartographer/mapping/internal/2d/pose_graph_2d_test.cc) | 2D 后端优化 |
+| [proto_stream_test.cc](../../../src/cartographer/cartographer/io/proto_stream_test.cc) | pbstream 读写 |
 
 ### 2.3 运行方式
 
@@ -133,12 +133,12 @@ colcon test --packages-select nav2_system_tests
 
 | 仓库 | 配置 | 作用 |
 | --- | --- | --- |
-| `cartographer` | [.bazelci/presubmit.yml](../../src/cartographer/.bazelci/presubmit.yml) | Ubuntu 16.04 上 `bazel build/test //...` |
-| `cartographer` | [azure-pipelines.yml](../../src/cartographer/azure-pipelines.yml) | Windows + ROS Melodic：构建、`ctest`、JUnit 报告 |
-| `cartographer_ros` | [azure-pipelines.yml](../../src/cartographer_ros/azure-pipelines.yml) | ROS 1 catkin 构建/测试（上游配置） |
-| `navigation2` | [.circleci/config.yml](../../src/navigation2/.circleci/config.yml) | ROS 2 release 构建/测试 + nightly，含覆盖率上传 |
-| `navigation2` | [tools/run_test_suite.bash](../../src/navigation2/tools/run_test_suite.bash) | 本地批量测试脚本 |
-| `navigation2` | [tools/run_sanitizers](../../src/navigation2/tools/run_sanitizers) | Sanitizer 运行脚本 |
+| `cartographer` | [.bazelci/presubmit.yml](../../../src/cartographer/.bazelci/presubmit.yml) | Ubuntu 16.04 上 `bazel build/test //...` |
+| `cartographer` | [azure-pipelines.yml](../../../src/cartographer/azure-pipelines.yml) | Windows + ROS Melodic：构建、`ctest`、JUnit 报告 |
+| `cartographer_ros` | [azure-pipelines.yml](../../../src/cartographer_ros/azure-pipelines.yml) | ROS 1 catkin 构建/测试（上游配置） |
+| `navigation2` | [.circleci/config.yml](../../../src/navigation2/.circleci/config.yml) | ROS 2 release 构建/测试 + nightly，含覆盖率上传 |
+| `navigation2` | [tools/run_test_suite.bash](../../../src/navigation2/tools/run_test_suite.bash) | 本地批量测试脚本 |
+| `navigation2` | [tools/run_sanitizers](../../../src/navigation2/tools/run_sanitizers) | Sanitizer 运行脚本 |
 
 > 这些 CI 面向**上游独立仓库**，不会自动构建 `yhs_*` 业务包，也不会检查本项目的 launch/参数一致性。
 
@@ -150,7 +150,7 @@ colcon test --packages-select nav2_system_tests
 | --- | --- |
 | `ament_lint_auto` | 45 个 `CMakeLists.txt` 启用（主要在 Nav2/Cartographer 上游包） |
 | `ament_uncrustify` / `cpplint` / `copyright` | 上游包按需启用；部分显式跳过 |
-| `.clang-format` | [cartographer/cartographer/.clang-format](../../src/cartographer/cartographer/.clang-format)、[cartographer_ros/cartographer_ros/src/.clang-format](../../src/cartographer_ros/cartographer_ros/src/.clang-format) 等 |
+| `.clang-format` | [cartographer/cartographer/.clang-format](../../../src/cartographer/cartographer/.clang-format)、[cartographer_ros/cartographer_ros/src/.clang-format](../../../src/cartographer_ros/cartographer_ros/src/.clang-format) 等 |
 | 编译告警 | 多数包开启 `-Wall -Wextra` |
 | Sanitizer | Cartographer 提供 ASan 脚本 |
 

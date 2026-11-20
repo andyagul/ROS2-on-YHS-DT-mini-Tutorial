@@ -51,7 +51,7 @@
 
 ### 3.1 建图（Cartographer 主方案）
 
-入口：[cartographer.launch.py](../../src/yhs_nav2/launch/cartographer.launch.py)
+入口：[cartographer.launch.py](../../../src/yhs_nav2/launch/cartographer.launch.py)
 
 ```
 serial_imu ─► /imu_data ─┐
@@ -72,7 +72,7 @@ yhs_can_control ─► /odom ┤
 
 ### 3.2 导航（Nav2）
 
-入口：[yhs_nav2.launch.py](../../src/yhs_nav2/launch/yhs_nav2.launch.py)
+入口：[yhs_nav2.launch.py](../../../src/yhs_nav2/launch/yhs_nav2.launch.py)
 
 ```
 serial_imu ─► /imu_data
@@ -92,8 +92,8 @@ bt_navigator ─► planner_server (NavFn) ─► /plan
 
 导航入口内部再拆成两个子 launch：
 
-- [localization_launch.py](../../src/yhs_nav2/launch/localization_launch.py)：`map_server` + `amcl` + `lifecycle_manager_localization`
-- [navigation_launch.py](../../src/yhs_nav2/launch/navigation_launch.py)：`controller_server`、`smoother_server`、`planner_server`、`behavior_server`、`bt_navigator`、`waypoint_follower`、`velocity_smoother` + `lifecycle_manager_navigation`
+- [localization_launch.py](../../../src/yhs_nav2/launch/localization_launch.py)：`map_server` + `amcl` + `lifecycle_manager_localization`
+- [navigation_launch.py](../../../src/yhs_nav2/launch/navigation_launch.py)：`controller_server`、`smoother_server`、`planner_server`、`behavior_server`、`bt_navigator`、`waypoint_follower`、`velocity_smoother` + `lifecycle_manager_navigation`
 
 ---
 
@@ -138,7 +138,7 @@ bt_navigator ─► planner_server (NavFn) ─► /plan
 
 ### 4.4 Cartographer 服务
 
-`submap_query`、`trajectory_query`、`start_trajectory`、`finish_trajectory`、`write_state`、`get_trajectory_states`、`read_metrics`（见 [node.cpp](../../src/cartographer_ros/cartographer_ros/src/node.cpp)）。
+`submap_query`、`trajectory_query`、`start_trajectory`、`finish_trajectory`、`write_state`、`get_trajectory_states`、`read_metrics`（见 [node.cpp](../../../src/cartographer_ros/cartographer_ros/src/node.cpp)）。
 
 ---
 

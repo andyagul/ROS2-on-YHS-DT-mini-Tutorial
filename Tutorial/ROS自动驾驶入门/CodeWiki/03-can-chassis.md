@@ -13,10 +13,10 @@
 | 下行（控制） | `/cmd_vel`（Twist）、`/ctrl_cmd`、`/free_ctrl_cmd`、`/io_cmd` | CAN 帧（速度、轮速、灯光） |
 | 上行（反馈） | CAN 反馈帧 | `/chassis_info_fb`、`/odom`、`odom→base_link` TF |
 
-- 头文件：[yhs_can_control_node.hpp](../../src/yhs_can_control/include/yhs_can_control/yhs_can_control_node.hpp)
-- 实现：[yhs_can_control_node.cpp](../../src/yhs_can_control/src/yhs_can_control_node.cpp)
-- 参数：[cfg.yaml](../../src/yhs_can_control/params/cfg.yaml)
-- 启动：[yhs_can_control.launch.py](../../src/yhs_can_control/launch/yhs_can_control.launch.py)
+- 头文件：[yhs_can_control_node.hpp](../../../src/yhs_can_control/include/yhs_can_control/yhs_can_control_node.hpp)
+- 实现：[yhs_can_control_node.cpp](../../../src/yhs_can_control/src/yhs_can_control_node.cpp)
+- 参数：[cfg.yaml](../../../src/yhs_can_control/params/cfg.yaml)
+- 启动：[yhs_can_control.launch.py](../../../src/yhs_can_control/launch/yhs_can_control.launch.py)
 
 ---
 
@@ -170,7 +170,7 @@ else:
 
 ## 6. 消息与动作定义
 
-目录：[yhs_can_interfaces/msg](../../src/yhs_can_interfaces/msg)、[action](../../src/yhs_can_interfaces/action/RecordPath.action)
+目录：[yhs_can_interfaces/msg](../../../src/yhs_can_interfaces/msg)、[action](../../../src/yhs_can_interfaces/action/RecordPath.action)
 
 | 消息 | 字段 |
 | --- | --- |

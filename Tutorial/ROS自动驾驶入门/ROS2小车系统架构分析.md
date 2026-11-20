@@ -4,6 +4,7 @@
 > 项目来源：YHS（深圳煜禾森科技有限公司）OS-lite-ros2-navigation —— 基于 ROS2 的单线激光 SLAM 导航套件
 > 版本基线：ROS 2 **Humble**，Nav2 **1.1.5**，TEB Local Planner **0.9.1**，Cartographer **2.0**，Orbbec SDK ROS2 **1.5.11**，Ubuntu 22.04
 > 硬件平台：煜禾森（YHS）差速 CAN 底盘（DT-mini / DT-mid / FR-mid / FR-mini / FW-mid / MK-mid / TK-mid 多车型）+ 单线激光雷达（nvilidar）+ 串口 IMU（CH100 系列）+ 可选 Orbbec 深度相机
+> 配套源码百科：[Code Wiki](CodeWiki/README.md)（20 章，含架构、接口、调参、运维、排障与 ADR）
 
 ---
 

@@ -35,7 +35,7 @@ hardware/nvilidar_ros2/
 
 ### 1.2 节点行为
 
-`main()`（[nvilidar_ros2_node.cpp](../../src/hardware/nvilidar_ros2/src/nvilidar_ros2_node.cpp)）：
+`main()`（[nvilidar_ros2_node.cpp](../../../src/hardware/nvilidar_ros2/src/nvilidar_ros2_node.cpp)）：
 
 1. `READ_PARAM` 读取 `nvilidar.yaml` 中的全部参数。
 2. 创建发布者 `scan`，QoS 为 `rclcpp::SensorDataQoS()`（**best effort**）。
@@ -46,7 +46,7 @@ hardware/nvilidar_ros2/
    - `range_min/max`、`ranges[]`（按角度索引落点）
 5. 发布 `scan`。
 
-### 1.3 关键参数（[nvilidar.yaml](../../src/hardware/nvilidar_ros2/params/nvilidar.yaml)）
+### 1.3 关键参数（[nvilidar.yaml](../../../src/hardware/nvilidar_ros2/params/nvilidar.yaml)）
 
 | 参数 | 值 | 说明 |
 | --- | --- | --- |
@@ -63,7 +63,7 @@ hardware/nvilidar_ros2/
 
 ### 1.4 静态 TF
 
-[nvilidar.launch.py](../../src/hardware/nvilidar_ros2/launch/nvilidar.launch.py) 同时启动：
+[nvilidar.launch.py](../../../src/hardware/nvilidar_ros2/launch/nvilidar.launch.py) 同时启动：
 
 ```
 static_transform_publisher 0 0 0.33 0 0 0 1 base_link laser_link
@@ -87,10 +87,10 @@ ros2 run tf2_ros tf2_echo base_link laser_link
 
 | 文件 | 作用 |
 | --- | --- |
-| [serial_port.cpp](../../src/hardware/serial_imu/src/serial_port.cpp) | ROS 2 节点：打开串口、解析、发布 `/imu_data` |
-| [ch_serial.c](../../src/hardware/serial_imu/src/ch_serial.c) / [ch_serial.h](../../src/hardware/serial_imu/src/ch_serial.h) | 串口读写与协议解包 |
-| [sub_spec.cpp](../../src/hardware/serial_imu/src/sub_spec.cpp) | `listener` 可执行文件，打印 IMU 原始字段，调试用 |
-| [imu_spec_msg.launch.py](../../src/hardware/serial_imu/launch/imu_spec_msg.launch.py) | 启动节点 + 静态 TF |
+| [serial_port.cpp](../../../src/hardware/serial_imu/src/serial_port.cpp) | ROS 2 节点：打开串口、解析、发布 `/imu_data` |
+| [ch_serial.c](../../../src/hardware/serial_imu/src/ch_serial.c) / [ch_serial.h](../../../src/hardware/serial_imu/src/ch_serial.h) | 串口读写与协议解包 |
+| [sub_spec.cpp](../../../src/hardware/serial_imu/src/sub_spec.cpp) | `listener` 可执行文件，打印 IMU 原始字段，调试用 |
+| [imu_spec_msg.launch.py](../../../src/hardware/serial_imu/launch/imu_spec_msg.launch.py) | 启动节点 + 静态 TF |
 
 ### 2.2 关键事实
 
@@ -139,10 +139,10 @@ ros2 topic echo /imu_data --once
 
 核心源文件：
 
-- [ob_camera_node.cpp](../../src/hardware/OrbbecSDK_ROS2/orbbec_camera/src/ob_camera_node.cpp)：流配置、发布者创建、帧回调
-- [ob_camera_node_driver.cpp](../../src/hardware/OrbbecSDK_ROS2/orbbec_camera/src/ob_camera_node_driver.cpp)：设备枚举与生命周期
-- [image_publisher.cpp](../../src/hardware/OrbbecSDK_ROS2/orbbec_camera/src/image_publisher.cpp)：图像发布
-- [ros_service.cpp](../../src/hardware/OrbbecSDK_ROS2/orbbec_camera/src/ros_service.cpp)：`get/set` 相机参数服务
+- [ob_camera_node.cpp](../../../src/hardware/OrbbecSDK_ROS2/orbbec_camera/src/ob_camera_node.cpp)：流配置、发布者创建、帧回调
+- [ob_camera_node_driver.cpp](../../../src/hardware/OrbbecSDK_ROS2/orbbec_camera/src/ob_camera_node_driver.cpp)：设备枚举与生命周期
+- [image_publisher.cpp](../../../src/hardware/OrbbecSDK_ROS2/orbbec_camera/src/image_publisher.cpp)：图像发布
+- [ros_service.cpp](../../../src/hardware/OrbbecSDK_ROS2/orbbec_camera/src/ros_service.cpp)：`get/set` 相机参数服务
 - `d2c_viewer.cpp`、`jpeg_decoder.cpp`、`jetson_nv_decoder.cpp`、`rk_mpp_decoder.cpp`：对齐与硬件解码
 
 ### 3.2 典型输出
@@ -159,7 +159,7 @@ ros2 topic echo /imu_data --once
 
 ### 3.3 在本项目中的状态
 
-[yhs_nav2.launch.py:133-146](../../src/yhs_nav2/launch/yhs_nav2.launch.py) 中相机与点云转激光的 `IncludeLaunchDescription` **被注释**。启用步骤：
+[yhs_nav2.launch.py:133-146](../../../src/yhs_nav2/launch/yhs_nav2.launch.py) 中相机与点云转激光的 `IncludeLaunchDescription` **被注释**。启用步骤：
 
 1. 取消相机 launch 注释，确认机型（如 `astra.launch.py`、`gemini2.launch.py`）与实机一致。
 2. 取消 `pointcloud_to_laserscan.launch.py` 注释。
@@ -171,7 +171,7 @@ ros2 topic echo /imu_data --once
 
 ### 4.1 类与流程
 
-类：`pointcloud_to_laserscan::PointCloudToLaserScanNode`（[pointcloud_to_laserscan_node.cpp](../../src/pointcloud_to_laserscan/src/pointcloud_to_laserscan_node.cpp)）
+类：`pointcloud_to_laserscan::PointCloudToLaserScanNode`（[pointcloud_to_laserscan_node.cpp](../../../src/pointcloud_to_laserscan/src/pointcloud_to_laserscan_node.cpp)）
 
 ```
 cloud_in (PointCloud2)
@@ -185,7 +185,7 @@ cloud_in (PointCloud2)
 
 ### 4.2 本项目 launch
 
-[pointcloud_to_laserscan.launch.py](../../src/pointcloud_to_laserscan/launch/pointcloud_to_laserscan.launch.py)：
+[pointcloud_to_laserscan.launch.py](../../../src/pointcloud_to_laserscan/launch/pointcloud_to_laserscan.launch.py)：
 
 | 项 | 值 |
 | --- | --- |

@@ -6,9 +6,9 @@
 
 ## 1. 版本与位置
 
-- 源码：[navigation2/](../../src/navigation2)，**Nav2 1.1.5**（Humble 分支）
-- 参数单点：[yhs_nav2/param/yhs_nav2.yaml](../../src/yhs_nav2/param/yhs_nav2.yaml)
-- 编排入口：[yhs_nav2/launch/yhs_nav2.launch.py](../../src/yhs_nav2/launch/yhs_nav2.launch.py)
+- 源码：[navigation2/](../../../src/navigation2)，**Nav2 1.1.5**（Humble 分支）
+- 参数单点：[yhs_nav2/param/yhs_nav2.yaml](../../../src/yhs_nav2/param/yhs_nav2.yaml)
+- 编排入口：[yhs_nav2/launch/yhs_nav2.launch.py](../../../src/yhs_nav2/launch/yhs_nav2.launch.py)
 
 Nav2 采用「**服务器 + 插件 + 行为树**」架构：每个服务器是生命周期节点，算法以插件形式加载，行为树负责编排。
 
@@ -54,7 +54,7 @@ configure → activate（逐个节点，bond 存活监测）
 
 ### 2.3 launch 参数
 
-[yhs_nav2.launch.py](../../src/yhs_nav2/launch/yhs_nav2.launch.py)：
+[yhs_nav2.launch.py](../../../src/yhs_nav2/launch/yhs_nav2.launch.py)：
 
 | 参数 | 默认 | 说明 |
 | --- | --- | --- |
@@ -82,7 +82,7 @@ configure → activate（逐个节点，bond 存活监测）
 
 ### 3.2 `nav2_amcl`（定位）
 
-- 类：`nav2_amcl::AmclNode`（[amcl_node.hpp](../../src/navigation2/nav2_amcl/include/nav2_amcl/amcl_node.hpp)）
+- 类：`nav2_amcl::AmclNode`（[amcl_node.hpp](../../../src/navigation2/nav2_amcl/include/nav2_amcl/amcl_node.hpp)）
 - 关键函数：
 
 | 函数 | 作用 |
@@ -95,7 +95,7 @@ configure → activate（逐个节点，bond 存活监测）
 | `publishParticleCloud()` | 发布 `/particle_cloud` |
 | `sendMapToOdomTransform()` | 发布 `map→odom`（`tf_broadcast=true`） |
 
-- 参数（[yhs_nav2.yaml:1-54](../../src/yhs_nav2/param/yhs_nav2.yaml)）：
+- 参数（[yhs_nav2.yaml:1-54](../../../src/yhs_nav2/param/yhs_nav2.yaml)）：
 
 | 参数 | 值 | 说明 |
 | --- | --- | --- |
@@ -111,7 +111,7 @@ configure → activate（逐个节点，bond 存活监测）
 | `set_initial_pose` | `True` | 启动即使用 `initial_pose`（0,0,0） |
 | `scan_topic` | `scan` | 输入激光 |
 
-> `set_initial_pose=True` 意味着 AMCL 启动后默认认为车在 `(0,0,0)`。实车若不在原点，必须通过 RViz **2D Pose Estimate** 或 [set_init_amcl_pose.py](../../src/yhs_nav2/scripts/set_init_amcl_pose.py) 重设，否则会出现"路径从地图外开始"。
+> `set_initial_pose=True` 意味着 AMCL 启动后默认认为车在 `(0,0,0)`。实车若不在原点，必须通过 RViz **2D Pose Estimate** 或 [set_init_amcl_pose.py](../../../src/yhs_nav2/scripts/set_init_amcl_pose.py) 重设，否则会出现"路径从地图外开始"。
 
 ### 3.3 `planner_server`
 
@@ -234,10 +234,10 @@ controller_server ──/cmd_vel_nav──► velocity_smoother ──/cmd_vel�
 
 | 层 | 文件 | 作用 |
 | --- | --- | --- |
-| 消息 | [RecordPath.action](../../src/yhs_can_interfaces/action/RecordPath.action) | Goal 携带 `nav_msgs/Path` 与 `behavior_tree` |
-| RViz | [nav2_panel.cpp](../../src/navigation2/nav2_rviz_plugins/src/nav2_panel.cpp) | 面板增加"录制/回放路径"按钮 |
-| BT 节点 | [navigate_follow_record_path_action.cpp](../../src/navigation2/nav2_behavior_tree/plugins/action/navigate_follow_record_path_action.cpp) | 发送 `navigate_follow_record_path` 动作 |
-| 导航器 | [navigate_follow_record_path.cpp](../../src/navigation2/nav2_bt_navigator/src/navigators/navigate_follow_record_path.cpp) | 加载专用行为树并执行 |
+| 消息 | [RecordPath.action](../../../src/yhs_can_interfaces/action/RecordPath.action) | Goal 携带 `nav_msgs/Path` 与 `behavior_tree` |
+| RViz | [nav2_panel.cpp](../../../src/navigation2/nav2_rviz_plugins/src/nav2_panel.cpp) | 面板增加"录制/回放路径"按钮 |
+| BT 节点 | [navigate_follow_record_path_action.cpp](../../../src/navigation2/nav2_behavior_tree/plugins/action/navigate_follow_record_path_action.cpp) | 发送 `navigate_follow_record_path` 动作 |
+| 导航器 | [navigate_follow_record_path.cpp](../../../src/navigation2/nav2_bt_navigator/src/navigators/navigate_follow_record_path.cpp) | 加载专用行为树并执行 |
 | 行为树 | `nav2_bt_navigator/behavior_trees/navigate_follow_record_path_w_replanning_and_recovery.xml` | 沿录制的 `Path` 逐点 FollowPath |
 | 插件注册 | `nav2_behavior_tree/CMakeLists.txt`、`nav2_bt_navigator/CMakeLists.txt` | 编译并导出 BT 节点 |
 

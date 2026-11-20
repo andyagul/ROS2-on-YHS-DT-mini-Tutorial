@@ -5,7 +5,7 @@
 > 教学载体：深圳煜禾森科技 OS-lite ROS2 单线激光 SLAM 导航套件（DT-mini 等车型）
 > 软件基线：Ubuntu 22.04 + ROS 2 Humble + Nav2 1.1.5 + Cartographer 2.0 + TEB 0.9.1
 > 学时学分：160 学时 / 10 学分（20 周 × 8 学时）
-> 编制依据：本工作空间《ROS2 小车系统架构分析》及其“推荐学习顺序”
+> 编制依据：本工作空间《ROS2 小车系统架构分析》与《[Code Wiki 源码百科](CodeWiki/README.md)》及其“推荐学习顺序”
 
 ---
 
