@@ -92,7 +92,7 @@ configure → activate（逐个节点，bond 存活监测）
 | `initialPoseReceived()` | 处理 `/initialpose`，重置粒子集 |
 | `updateFilter()` | 运动更新 + 观测更新 + 重采样 |
 | `publishAmclPose()` | 发布 `/amcl_pose` |
-| `publishParticleCloud()` | 发布 `/particlecloud` |
+| `publishParticleCloud()` | 发布 `/particle_cloud` |
 | `sendMapToOdomTransform()` | 发布 `map→odom`（`tf_broadcast=true`） |
 
 - 参数（[yhs_nav2.yaml:1-54](../../src/yhs_nav2/param/yhs_nav2.yaml)）：
