@@ -226,7 +226,7 @@ PipelineSequence
 4. 在 `bt_navigator.plugin_lib_names` 中加入库名。
 5. 在 XML 中使用节点 ID。
 
-本仓库的 `nav2_compute_follow_record_path_action_bt_node` 与 `nav2_navigate_follow_record_path_action_bt_node` 即按此方式扩展（见 [06 文档 §6](06-navigation2.md)）。
+本仓库的 `nav2_compute_follow_record_path_action_bt_node` 即按此方式扩展，库中注册的节点名为 `NavigateFollowRecordPath`（见 [06 文档 §6](06-navigation2.md)）。注意库名与节点名不一致，配置 `plugin_lib_names` 时要用**库名**。
 
 ### 3.6 可视化
 
