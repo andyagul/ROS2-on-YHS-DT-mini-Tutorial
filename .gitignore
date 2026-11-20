@@ -1,1 +1,26 @@
 .DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+
+# ROS2
+install/
+log/
+build/
+
+# 模型权重（体积大，用官方下载或训练产出）
+*.pt
+*.onnx
+*.engine
+*.pt2
+*.pth
+
+# 离线 pip 包
+offline_pip/
+*.whl

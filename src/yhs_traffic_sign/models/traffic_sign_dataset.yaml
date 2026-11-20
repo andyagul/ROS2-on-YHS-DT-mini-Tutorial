@@ -1,0 +1,36 @@
+# YOLOv8 交通标识牌检测模型 - 训练数据集配置
+# 
+# 数据集目录结构要求:
+# dataset_root/
+#   ├── images/
+#   │   ├── train/
+#   │   └── val/
+#   └── labels/
+#       ├── train/
+#       └── val/
+#
+# 标注格式: YOLO格式 (class_id center_x center_y width height) 归一化坐标
+
+# 数据集名称
+name: traffic_sign
+
+# 训练/验证集路径 (相对于此yaml文件位置)
+train: images/train
+val: images/val
+
+# 类别数量
+nc: 3
+
+# 类别名称 (必须与 SignType.CLASS_IDS 严格对应)
+names:
+  0: left_turn        # 左转标识
+  1: straight         # 直行标识
+  2: right_turn       # 右转标识
+
+# 训练建议参数 (ultralytics默认值可覆盖)
+# imgsz: 640          # 输入尺寸
+# batch: 16           # 批大小
+# epochs: 100         # 训练轮次
+# patience: 20        # 早停耐心值
+# optimizer: SGD      # 优化器
+# lr0: 0.01           # 初始学习率
