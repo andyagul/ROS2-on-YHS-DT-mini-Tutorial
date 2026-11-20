@@ -60,9 +60,13 @@
 | # | 项目 | 要求 |
 |---|------|------|
 | ☐ | 小车 IP 地址已知 | 老师会发放，或通过路由器后台查看 |
+| ☐ | **WiFi 名称** | 课程统一 SSID（见下方课表） |
+| ☐ | **WiFi 密码** | `12345678` |
 | ☐ | 学生机与小车**同一网段** | 例：小车 192.168.1.102，学生机 192.168.1.x |
 | ☐ | 无防火墙拦截 SSH 端口 (22) | 公司/校园网可能屏蔽 22 端口 |
 | ☐ | 学生机关掉 VPN | VPN 可能改变网段导致连不上 |
+
+> 💡 **连 WiFi 方法（Windows）：** 右下角任务栏点 WiFi 图标 → 找到课程 SSID → 点"连接" → 输入密码 `12345678` → 回车。连上后再继续步骤 3 的 ping 测试。
 
 ### 1.4 账号凭据（课程统一约定）
 
@@ -70,8 +74,9 @@
 
 | 项目 | 值 |
 |------|-----|
-| 小车用户名 | `ubuntu` |
-| 默认密码 | `dtmini2024` |
+| 小车用户名 | `qg` |
+| 登录密码 | `123456` |
+| WiFi 密码 | `12345678` |
 | SSH 端口 | `22`（标准） |
 | ROS 2 版本 | `humble` |
 | 工作空间 | `~/ros2_ws` |
@@ -268,7 +273,7 @@ telnet 192.168.1.102 22
 |------|----------|------|
 | **Remote host** | `192.168.1.102` | 小车 IP（换成你的实际值） |
 | **Specify username** | ✅ 勾选 | 显示用户名输入框 |
-| **Username** | `ubuntu` | 标准用户名 |
+| **Username** | `qg` | 标准用户名 |
 | **Port** | `22` | SSH 标准端口，一般不用改 |
 | **X11-Forwarding** | ✅ 勾选 | 让小车的 GUI 程序显示在你 Windows 上 |
 | **Compression** | ❌ 不勾 | 局域网不需要压缩 |
@@ -306,7 +311,7 @@ Are you sure you want to continue connecting (yes/no/[fingerprint])?
 qg@192.168.1.102's password:
 ```
 
-输入密码：`dtmini2024`（标准密码，以老师为准）
+输入密码：`123456`（标准密码，以老师为准）
 
 > 💡 **注意：Linux 终端输入密码时不显示任何字符（没有星号、没有下划线、什么都没有），这是正常的！** 盲输完直接回车。
 
@@ -329,7 +334,7 @@ qg@dt-mini:~$ _
 |----------|------|------|
 | `Connection refused` | 小车 SSH 服务没启动 | 用 `ssh qg@localhost` 在小车本机测试；或老师修 |
 | `Operation timed out` | 网络不通 | 回到步骤 3 继续排查 |
-| `Permission denied` | 用户名/密码错 | 确认用户名是 `ubuntu`，密码注意大小写 |
+| `Permission denied` | 用户名/密码错 | 确认用户名是 `qg`，密码注意大小写（`123456`） |
 | `Connection reset by peer` | 网络不稳定 | 换网线；关闭 VPN |
 | `Host key verification failed` | 小车换了指纹 | 终端里运行 `ssh-keygen -R 192.168.1.102`，然后重连输入 yes |
 
@@ -344,7 +349,7 @@ qg@dt-mini:~$ _
 ```bash
 whoami
 ```
-预期：`ubuntu`
+预期：`qg`
 
 ```bash
 hostname
@@ -354,7 +359,7 @@ hostname
 ```bash
 pwd
 ```
-预期：`/home/ubuntu`
+预期：`/home/qg`
 
 ```bash
 uname -a
@@ -434,7 +439,7 @@ MobaXterm 有一个超好用的功能：**左边面板自动显示远程文件�
 
 **步骤 6.1 — 查看远程文件**
 
-MobaXterm 界面左侧自动出现一个文件树，显示 `192.168.1.102 /home/ubuntu` 下的所有文件。展开就能浏览。
+MobaXterm 界面左侧自动出现一个文件树，显示 `192.168.1.102 /home/qg` 下的所有文件。展开就能浏览。
 
 **步骤 6.2 — 从小车下载文件到你的电脑**
 
@@ -658,10 +663,10 @@ exit
 
 | 编号 | 现象 | 最可能原因 | 排查顺序 | 最终解决 |
 |------|------|-----------|----------|---------|
-| B1 | `Permission denied`（反复 3 次） | 密码错 | ① 大写锁 ② 键盘布局 ③ 确认是不是 dtmini2024 | 问老师拿新密码 |
+| B1 | `Permission denied`（反复 3 次） | 密码错 | ① 大写锁 ② 键盘布局 ③ 确认是不是 `123456` | 问老师拿新密码 |
 | B2 | `Permission denied`（只 1 次）然后成功 | SSH 指纹缓存 | 正常，不是问题 | — |
 | B3 | `sudo: command not found` | 路径/权限 | 直接 `sudo ls` 再看 | root 可能禁用了 sudo，用 `su -` |
-| B4 | `User is not in the sudoers file` | qg 没加 sudo 组 | 首次部署可能漏了 | 用 su 切换 root：`su -`，密码 root 或 dtmini2024 |
+| B4 | `User is not in the sudoers file` | qg 没加 sudo 组 | 首次部署可能漏了 | 用 su 切换 root：`su -`，密码 root 或 `123456` |
 | B5 | 文件上传失败 `Permission denied` | 目标目录权限不够 | `ls -ld 目标目录` 看权限 | `chmod -R u+w ~/ros2_ws` |
 | B6 | 文件上传后找不到 | 传到了错误目录 | `find ~ -name "文件名" 2>/dev/null` | 记好路径再传 |
 
@@ -701,7 +706,7 @@ exit
 | ✅ A2 | telnet 22 端口 | 能连上 | `telnet <IP> 22` |
 | ✅ A3 | MobaXterm SSH 登录 | 出现 `qg@dt-mini:~$` | 看终端提示符 |
 | ✅ A4 | 文件上传下载 | 一个文件成功往返 | 左侧面板拖拽测试 |
-| ✅ A5 | `whoami` | 输出 `ubuntu` | 终端执行 |
+| ✅ A5 | `whoami` | 输出 `qg` | 终端执行 |
 | ✅ A6 | `lsb_release -a` | 22.04 LTS | 终端执行 |
 
 ### 模块 B — ROS2 环境验证（进入第三步前）
@@ -739,11 +744,15 @@ exit
 
 | 小车编号 | IP 地址 | 用户名 | 密码 | MAC 地址 | 备注 |
 |----------|---------|--------|------|----------|------|
-| DT-mini #1 | 192.168.1.102 | ubuntu | dtmini2024 | AA:BB:CC:DD:EE:01 | 激光雷达已接 |
-| DT-mini #2 | 192.168.1.102 | ubuntu | dtmini2024 | AA:BB:CC:DD:EE:02 | Orbbec Gemini2 |
-| DT-mini #3 | 192.168.1.102 | ubuntu | dtmini2024 | AA:BB:CC:DD:EE:03 | IMU 未校准 |
+| DT-mini #1 | 192.168.1.102 | qg | 123456 | AA:BB:CC:DD:EE:01 | 激光雷达已接 |
+| DT-mini #2 | 192.168.1.102 | qg | 123456 | AA:BB:CC:DD:EE:02 | Orbbec Gemini2 |
+| DT-mini #3 | 192.168.1.102 | qg | 123456 | AA:BB:CC:DD:EE:03 | IMU 未校准 |
 | DT-mini #4 | | | | | |
 | DT-mini #5 | | | | | |
+
+**WiFi 连接信息（所有小车共享）：**
+- SSID：课程统一名称（老师当天告知）
+- 密码：`12345678`
 
 > ⚠️ 安全提示：
 > 1. 课后从 SSH `~/.bash_history` 里清除密码痕迹
