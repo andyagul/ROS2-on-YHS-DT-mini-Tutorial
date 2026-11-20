@@ -417,7 +417,7 @@ build  install  log  src
 ls ~/ros2_ws/src/
 ```
 
-预期能看到 `yhs_can_interfaces/`、`yhs_can_control/`、`yhs_traffic_sign/` 等包目录。
+预期能看到 `yhs_can_interfaces/`、`yhs_can_control/` 等包目录。
 
 **步骤 5.5 — 确认 Python 版本**
 
@@ -425,11 +425,6 @@ ls ~/ros2_ws/src/
 python3 --version
 ```
 预期：`Python 3.10.x`
-
-```bash
-pip3 show ultralytics 2>/dev/null | head -2
-```
-预期有版本输出（如果没装，第四环节前再装也来得及）。
 
 ---
 
@@ -443,8 +438,8 @@ MobaXterm 界面左侧自动出现一个文件树，显示 `192.168.1.102 /home/
 
 **步骤 6.2 — 从小车下载文件到你的电脑**
 
-1. 左侧文件树里找到 `~/ros2_ws/src/yhs_traffic_sign/launch/` 目录
-2. 看到 `traffic_sign_response.launch.py`
+1. 左侧文件树里找到 `~/ros2_ws/src/yhs_can_control/` 目录
+2. 看到 `package.xml` 或 `launch/` 子目录
 3. **右键** → **Download**（或直接拖拽到你 Windows 的文件夹）
 4. 选择本地保存位置
 
@@ -452,23 +447,23 @@ MobaXterm 界面左侧自动出现一个文件树，显示 `192.168.1.102 /home/
 
 **步骤 6.3 — 从电脑上传文件到小车**
 
-1. 找到你 Windows 上的某个文件（比如 `dataset.yaml`）
-2. **拖入** 左侧文件树的 `~/ros2_ws/src/yhs_traffic_sign/models/` 目录
+1. 找到你 Windows 上的某个文件（比如一个测试用的 `.launch.py`）
+2. **拖入** 左侧文件树的 `~/ros2_ws/src/` 目录
 3. 等待传输完成（右下角会显示进度）
 
 > 💡 **也可以用 SCP 命令行方式：**
 > ```bash
-> scp C:\Users\你\Desktop\dataset.yaml qg@192.168.1.102:~/ros2_ws/src/yhs_traffic_sign/models/
+> scp C:\Users\你\Desktop\test.launch.py qg@192.168.1.102:~/ros2_ws/src/
 > ```
 > 但 MobaXterm 左侧面板拖拽更直观，推荐新手用。
 
 **步骤 6.4 — 终端里用命令验证文件确实传过去了**
 
 ```bash
-ls -lh ~/ros2_ws/src/yhs_traffic_sign/models/
+ls -lh ~/ros2_ws/src/
 ```
 
-预期：能看到刚上传的 `dataset.yaml` 或 `yolov8n.pt`。
+预期：能看到刚上传的文件出现在列表里。
 
 ---
 
@@ -678,7 +673,7 @@ exit
 | C2 | `No such file or directory` (ros2_ws) | 工作空间未克隆 | `ls ~/ | grep ros2` | 按 README.md git clone |
 | C3 | `PackageNotFoundError` 编译时报依赖包缺 | 缺第三方包 | `rosdep install --from-paths src --ignore-src -r -y` | 或手动 apt install |
 | C4 | `colcon: command not found` | colcon 未装 | `sudo apt install python3-colcon-common-extensions` | |
-| C5 | `ModuleNotFoundError: ultralytics` | Python 库未装 / **小车无外网** | 先试 `ping pypi.org` 测外网 | 有网：`pip3 install ultralytics`；无网：按 [离线安装指南-Python依赖.md](file:///Users/waiyu/Library/Mobile%20Documents/com~apple~CloudDocs/Work/Personal/ROS2%20on%20YHS%20DT-mini%20Tutorial/src/yhs_traffic_sign/%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97-Python%E4%BE%9D%E8%B5%96.md) 走 Windows 下载→SFTP 上传→离线安装三步法 |
+| C5 | `ModuleNotFoundError: <包名>` | Python 库未装 | `pip3 install <包名>` | 如果小车无外网，需在 Windows 上 `pip3 download <包名>` 后 SFTP 上传，再 `pip3 install --no-index --find-links=. <包名>` |
 | C6 | launch 文件路径不存在 | colcon build 没跑过 | `cd ~/ros2_ws && colcon build && source install/setup.bash` | |
 
 ### D 类：指令无响应问题
@@ -803,7 +798,6 @@ exit
 | 看话题内容 | `ros2 topic echo <topic> --once` |
 | 看话题频率 | `ros2 topic hz <topic>` |
 | 启动 CAN 控制 | `ros2 launch yhs_can_control yhs_can_control.launch.py` |
-| 启动交通标识牌识别 | `ros2 launch yhs_traffic_sign traffic_sign_response.launch.py enable_control:=false` |
 | 启动激光雷达 | `ros2 launch nvilidar_ros2 nvilidar.launch.py` |
 | 启动 Orbbec 相机 | `ros2 launch orbbec_camera gemini.launch.py` |
 | 发一条测试指令 | `ros2 topic pub --once /ctrl_cmd yhs_can_interfaces/msg/CtrlCmd "{ctrl_cmd_gear:1, ctrl_cmd_linear:0.0, ctrl_cmd_angular:0.0}"` |
