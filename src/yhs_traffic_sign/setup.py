@@ -32,9 +32,10 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            # 主节点：检测 + 测距 + 控制全部在一个 ROS2 节点里跑
             'traffic_sign_response = yhs_traffic_sign.traffic_sign_response:main',
-            'traffic_sign_detector_node = yhs_traffic_sign.traffic_sign_detector:main',
-            'distance_estimator_node = yhs_traffic_sign.distance_estimator:main',
+            # 注意：traffic_sign_detector.py 和 distance_estimator.py 是内部模块类，
+            # 不是独立 ROS2 节点，所以不注册为 console_scripts
         ],
     },
 )
